@@ -23,13 +23,13 @@ export class PessoaService {
             const createPessoa = await this.repoPessoa.create(pessoa)            
             return {
                 success: true,
-                message: 'Consulta realizada com sucesso!',
+                message: 'Registro adicionado com sucesso!',
                 data: createPessoa
             }
         } catch (error) {
             return {
                 success: false,
-                message: 'Erro ao Consultar Pessoa',
+                message: 'Erro ao adicionar registro!',
                 error: error as any
             }
         }
@@ -59,6 +59,42 @@ export class PessoaService {
                 message: 'Consulta realizada com sucesso!',
                 data: searchPessoa
             }
+        }
+    }
+
+     /**
+        * Busca uma pessoa.
+        * @param parm - Parametro da consulta
+        * @returns retorno da consulta
+   */
+
+     async editPessoa(queryParameter: { [key: string]: string }): Promise<PessoaResultInterface> { //criar interface retorno
+        const editPessoa = await this.repoPessoa.search(pe)
+        const cpf = pessoa.pessoa_cpf
+        const email = pessoa.pessoa_email
+        try {
+            const buscaCPF = await repositoryMethods.search({ 'pessoa_cpf': cpf })
+
+            if (buscaCPF instanceof Error) {
+                throw buscaCPF
+            }
+
+            if (buscaCPF.length > 0) {
+                return `CPF já Cadastrado!`
+            }
+            const bsucaEmail = await repositoryMethods.search({ 'pessoa_email': email })
+
+            if (bsucaEmail instanceof Error) {
+                throw bsucaEmail
+            } else if (bsucaEmail.length > 0) {
+                return `Email Já cadastrado!!`
+            }
+            else {
+                const result = await repositoryMethods.add(pessoa)
+                return result
+            }
+        } catch (error) {
+            throw error
         }
     }
 

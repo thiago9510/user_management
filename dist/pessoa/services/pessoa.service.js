@@ -16,14 +16,14 @@ class PessoaService {
             const createPessoa = await this.repoPessoa.create(pessoa);
             return {
                 success: true,
-                message: 'Consulta realizada com sucesso!',
+                message: 'Registro adicionado com sucesso!',
                 data: createPessoa
             };
         }
         catch (error) {
             return {
                 success: false,
-                message: 'Erro ao Consultar Pessoa',
+                message: 'Erro ao adicionar registro!',
                 error: error
             };
         }

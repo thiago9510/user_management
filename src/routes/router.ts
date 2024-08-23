@@ -1,9 +1,11 @@
 import express from 'express'
 import { Request, Response } from 'express'
-import { pessoaAddMiddleware } from '../pessoa/middlewares/pessoa.add.middlewarer'
+import { pessoaAddMiddlewar } from '../pessoa/middlewares/pessoa.add.middleware'
 import { pessoaAddController } from '../pessoa/controllers/pessoa.add.controller'
-import { pessoaSearchMiddleware } from '../pessoa/middlewares/pessoa.serach.middlewarer'
+import { pessoaSearchMiddleware } from '../pessoa/middlewares/pessoa.serach.middleware'
 import { pessoaSearchController } from '../pessoa/controllers/pessoa.serach.controller'
+import { pessoaEditMiddlewar } from '../pessoa/middlewares/pessoa.edit.middleware'
+import { pessoaEditController } from '../pessoa/controllers/pessoa.edit.controller'
 
 export const router = express.Router()
 
@@ -13,7 +15,7 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 //CRUD PESSOA
-router.post('/pessoas/add', pessoaAddMiddleware, pessoaAddController) 
+router.post('/pessoas/add', pessoaAddMiddlewar, pessoaAddController) 
 router.get('/pessoas/search', pessoaSearchMiddleware, pessoaSearchController) //
-//router.put('/pessoas/edit/:id',editPessoaMiddleware, editPessoaController)
+router.put('/pessoas/edit/:id',pessoaEditMiddlewar, pessoaEditController)
 //router.delete('/pessoas/delete/:id',deletePessoaMiddleware, deletePessoaController)

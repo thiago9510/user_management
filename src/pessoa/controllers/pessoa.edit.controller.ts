@@ -2,8 +2,11 @@ import { Request, Response, NextFunction } from "express"
 import { PessoaAddInterface } from "../interfaces/pessoa.add.interface"
 import { PessoaService } from "../services/pessoa.service"
 
-export const pessoaAddController = async (req: Request, res: Response) => {    
-    const pessoa: PessoaAddInterface = req.body
+export const pessoaEditController = async (req: Request, res: Response) => {    
+
+    const pessoaId = req.params.id 
+
+    const pessoa: PessoaAddInterface = req.body    
     const service = new PessoaService()
     const response = await service.addPessoa(pessoa) 
     if (response.success == false){
