@@ -65,5 +65,46 @@ class PessoaRepository {
             }
         }
     }
+    /**
+ *Método para Adicionar Pessoa.
+  *
+  * @param {Object} query - Recebe
+  * @param {PessoaEntity} pessoa - Recebe
+  * @returns {Promise<PessoaEntity>} - retorna a pessoa editada
+  * @throws {Error} - Lança um erro em caso de falha
+*/
+    async edit(query, pessoa) {
+        try {
+            const queryReturn = await this.repository.find({ where: query });
+            if (queryReturn.length != 1) {
+                throw {
+                    name: 'Invalid Parameter',
+                    message: 'Id Inválido ou não localizado'
+                };
+            }
+            else {
+                const mergeEdit = await this.repository.merge(queryReturn[0], pessoa);
+                const saveEdit = await this.repository.save(mergeEdit);
+                return saveEdit;
+            }
+        }
+        catch (error) {
+            if (error instanceof typeorm_1.QueryFailedError) {
+                if (error.message.includes('ER_DUP_ENTRY')) {
+                    throw {
+                        name: 'Duplicate data',
+                        message: 'The Email or CPF is already registered in the system for another user'
+                    };
+                }
+                throw {
+                    name: error.name,
+                    message: error.message
+                };
+            }
+            else {
+                throw error;
+            }
+        }
+    }
 }
 exports.PessoaRepository = PessoaRepository;

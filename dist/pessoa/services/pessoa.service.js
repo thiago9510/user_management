@@ -30,7 +30,7 @@ class PessoaService {
     }
     /**
         * Busca uma pessoa.
-        * @param parm - Parametro da consulta
+        * @param queryParameter - Parametro da consulta
         * @returns retorno da consulta
    */
     async searchPessoa(queryParameter) {
@@ -50,6 +50,28 @@ class PessoaService {
                 success: true,
                 message: 'Consulta realizada com sucesso!',
                 data: searchPessoa
+            };
+        }
+    }
+    /**
+       * Edita pessoa.
+       * @param parm - Parametro da consulta
+       * @returns retorno da consulta
+  */
+    async editPessoa(pessoaId, pessoa) {
+        try {
+            const editPessoa = await this.repoPessoa.edit({ 'pessoa_id': pessoaId }, pessoa);
+            return {
+                success: true,
+                message: 'Registro alterado com sucesso!',
+                data: editPessoa
+            };
+        }
+        catch (error) {
+            return {
+                success: false,
+                message: 'Erro ao Editar registro!',
+                error: error
             };
         }
     }
