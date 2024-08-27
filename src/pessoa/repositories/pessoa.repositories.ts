@@ -1,8 +1,8 @@
-import { QueryFailedError, Repository } from "typeorm";
+import { DeleteResult, QueryFailedError, Repository } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
 import { PessoaEntity } from "../../database/entity/pessoasEntity";
 import { QueryFailedPessoaError } from "../interfaces/pessoa.interface";
-import { SinglePessoaProperty } from "../interfaces/pessoa.add.interface";
+import { SinglePessoaProperty } from "../interfaces/pessoa.interface";
 
 /**
  *Classe responsável por Integrar com a entidade PessoaEntity
@@ -72,35 +72,60 @@ export class PessoaRepository {
   * @param {PessoaEntity} pessoa - Recebe
   * @returns {Promise<PessoaEntity>} - retorna a pessoa editada
   * @throws {Error} - Lança um erro em caso de falha
-*/
+    */
     async edit(query: SinglePessoaProperty<PessoaEntity>, pessoa: PessoaEntity): Promise<PessoaEntity | Error> {
         try {
-            const queryReturn: PessoaEntity[] = await this.repository.find({where: query})
-            
-            if(queryReturn.length != 1){
+            const queryReturn: PessoaEntity[] = await this.repository.find({ where: query })
+
+            if (queryReturn.length != 1) {
                 throw {
                     name: 'Invalid Parameter',
                     message: 'Invalid ID or not found'
                 }
-            }else{
+            } else {
                 const mergeEdit = await this.repository.merge(queryReturn[0], pessoa)
-                const saveEdit = await this.repository.save(mergeEdit)                 
+                const saveEdit = await this.repository.save(mergeEdit)
                 return saveEdit
-            }            
-        } catch (error) {            
+            }
+        } catch (error) {
             if (error instanceof QueryFailedError) {
-                if (error.message.includes('ER_DUP_ENTRY')){
+                if (error.message.includes('ER_DUP_ENTRY')) {
                     throw {
                         name: 'Duplicate data',
                         message: 'The Email or CPF is already registered in the system for another user'
-                    } 
-                }           
+                    }
+                }
                 throw {
                     name: error.name,
                     message: error.message
-                }          
-            } else{                
+                }
+            } else {
                 throw error
+            }
+        }
+    }
+
+    /**
+    * Método para Deletar instâncias de InstanciasUniversaEntity.
+    *       
+    * @param { Partial<PessoaEntity>} [query] - Recebe um critério de busca
+    * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
+    */
+    async delete(query: Partial<PessoaEntity>): Promise<DeleteResult | Error> {
+        try {
+            const response = await this.repository.delete(query)
+            return response
+        } catch (error) {
+            if (error instanceof QueryFailedError) {
+                throw {
+                    name: error.name,
+                    message: error.message
+                }
+            } else {
+                throw {
+                    name: 'Erro ao consultar Registro!',
+                    message: error
+                }
             }
         }
     }

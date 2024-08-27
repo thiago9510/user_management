@@ -11,6 +11,3 @@ export interface PessoaAddInterface {
     created_At?: Date
 }
 
-export type SinglePessoaProperty<T> = { // tipo que serve para receber apenas uma propriedade do tipo definido
-    [K in keyof T]: Pick<T, K>
-}[keyof T]

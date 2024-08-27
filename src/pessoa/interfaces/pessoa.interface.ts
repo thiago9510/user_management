@@ -13,3 +13,7 @@ export interface PessoaResultInterface{
     data?: any,  // Dados da pessoa criada, caso tenha sucesso
     error?: string | Error  // Mensagem de erro opcional
 }
+
+export type SinglePessoaProperty<T> = { // tipo que serve para receber apenas uma propriedade do tipo definido
+    [K in keyof T]: Pick<T, K>
+}[keyof T]

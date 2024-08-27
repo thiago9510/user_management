@@ -2,6 +2,7 @@ import { PessoaEntity } from "../../database/entity/pessoasEntity";
 import { PessoaAddInterface } from "../interfaces/pessoa.add.interface";
 import { PessoaRepository } from "../repositories/pessoa.repositories";
 import { PessoaResultInterface, QueryFailedPessoaError } from "../interfaces/pessoa.interface";
+import { QueryFailedError } from "typeorm";
 
 
 export class PessoaService {
@@ -86,4 +87,42 @@ export class PessoaService {
         }
     }
 
+    /**
+   * Edita pessoa.
+   * @param parm - Parametro da consulta
+   * @returns retorno da consulta
+*/
+
+    async deletePessoa(pessoaId: number) { //criar interface retorno
+
+        try {
+            const repositoryMethods = await this.repoPessoa.delete({ pessoa_id: pessoaId })
+            if (repositoryMethods) {
+                return repositoryMethods
+            }
+        } catch (error) {
+            if (error instanceof QueryFailedError) {
+                if ((error as any).code === 'ER_ROW_IS_REFERENCED_2') {
+                    return {
+                        success: false,
+                        message: 'A pessoa não pode ser deletada pois existem registros vinculados!',
+                        error: error
+                    }
+                }
+                else {
+                    return {
+                        success: false,
+                        message: 'Erro ao Editar registro!',
+                        error: error
+                    }
+                }
+            } else {
+                return {
+                    success: false,
+                    message: error
+                }
+            }
+        }
+
+    }
 }
