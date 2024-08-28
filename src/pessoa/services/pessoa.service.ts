@@ -142,7 +142,7 @@ export class PessoaService {
                 success: false,
                 message: 'Ocorreu um erro inesperado.',
                 error: ''
-            };
+            }
         }
     }
 }
