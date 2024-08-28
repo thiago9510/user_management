@@ -21,7 +21,7 @@ export class UsuarioEntity {
 
     @ManyToOne(() => PessoaEntity, { nullable: false })
     @JoinColumn({ name: 'pessoa_id' })
-    pessoa!: PessoaEntity;  // Relacionamento com a entidade PessoaEntity
+    pessoa_id!: PessoaEntity;  // Relacionamento com a entidade PessoaEntity
 
     @UpdateDateColumn({name: 'updated_At'})
     updated_At?: Date

@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pessoaDeleteMiddleware = exports.pessoaEditMiddleware = exports.pessoaSearchMiddleware = exports.pessoaAddMiddlewar = void 0;
 const generalValidation_1 = require("../../dataValidation/services/generalValidation");
 const generalArrayValidation_1 = require("../../dataValidation/services/generalArrayValidation");
-const pessoa_add_schemas_1 = require("../schemas/pessoa.add.schemas");
+const pessoa_schemas_1 = require("../schemas/pessoa.schemas");
 //create
 const pessoaAddMiddlewar = async (req, res, next) => {
-    const validator = new generalValidation_1.BodyValidator(pessoa_add_schemas_1.pessoasSchemas);
+    const validator = new generalValidation_1.BodyValidator(pessoa_schemas_1.pessoasSchemas);
     const returnValidation = validator.validate(req.body);
     if (!returnValidation.success) {
         res.status(400).json({
@@ -30,7 +30,6 @@ const pessoaSearchMiddleware = (req, res, next) => {
     }
     else {
         next();
-        //res.status(200).json(returnValidation)        
     }
 };
 exports.pessoaSearchMiddleware = pessoaSearchMiddleware;
@@ -47,7 +46,7 @@ const pessoaEditMiddleware = async (req, res, next) => {
             message: 'parametro não aceito'
         });
     }
-    const validator = new generalValidation_1.BodyValidator(pessoa_add_schemas_1.pessoasSchemas);
+    const validator = new generalValidation_1.BodyValidator(pessoa_schemas_1.pessoasSchemas);
     const returnValidation = validator.validate(pessoa);
     if (!returnValidation.success) {
         return res.status(400).json({

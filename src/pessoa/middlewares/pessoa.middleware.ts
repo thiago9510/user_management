@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { BodyValidator } from "../../dataValidation/services/generalValidation"
 import { ArrayParameterValidation } from "../../dataValidation/services/generalArrayValidation"
-import { pessoasSchemas } from "../schemas/pessoa.add.schemas"
+import { pessoasSchemas } from "../schemas/pessoa.schemas"
 import { PessoaAddInterface } from "../interfaces/pessoa.interface"
 
 
@@ -28,8 +28,7 @@ export const pessoaSearchMiddleware = (req: Request, res: Response, next: NextFu
     if(returnValidation.success == false){        
         res.status(400).json(returnValidation)
     }else{ 
-        next()           
-        //res.status(200).json(returnValidation)        
+        next()            
     }
 }
 

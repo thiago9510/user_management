@@ -40,7 +40,7 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => pessoasEntity_1.PessoaEntity, { nullable: false }),
     (0, typeorm_1.JoinColumn)({ name: 'pessoa_id' }),
     __metadata("design:type", pessoasEntity_1.PessoaEntity)
-], UsuarioEntity.prototype, "pessoa", void 0);
+], UsuarioEntity.prototype, "pessoa_id", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ name: 'updated_At' }),
     __metadata("design:type", Date)
