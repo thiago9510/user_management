@@ -94,14 +94,12 @@ class PessoaService {
             if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
                 return {
                     success: true,
-                    message: 'Nenhum Registro geletado',
-                    error: ''
+                    message: 'Nenhum Registro deletado',
                 };
             }
             return {
                 success: true,
-                message: 'Registro deletado',
-                error: ''
+                message: 'Registro deletado'
             };
         }
         catch (error) {

@@ -1,7 +1,6 @@
 import { PessoaEntity } from "../../database/entity/pessoasEntity";
-import { PessoaAddInterface } from "../interfaces/pessoa.add.interface";
 import { PessoaRepository } from "../repositories/pessoa.repositories";
-import { PessoaResultInterface, QueryFailedPessoaError } from "../interfaces/pessoa.interface";
+import { PessoaAddInterface, PessoaResultInterface, QueryFailedPessoaError } from "../interfaces/pessoa.interface";
 import { DeleteResult, QueryFailedError } from "typeorm";
 
 
@@ -69,7 +68,7 @@ export class PessoaService {
        * @returns retorno da consulta
   */
 
-    async editPessoa(pessoaId: number, pessoa: PessoaAddInterface) { //criar interface retorno
+    async editPessoa(pessoaId: number, pessoa: PessoaAddInterface): Promise<PessoaResultInterface> {
 
         try {
             const editPessoa = await this.repoPessoa.edit({ 'pessoa_id': pessoaId }, pessoa)
@@ -78,11 +77,11 @@ export class PessoaService {
                 message: 'Registro alterado com sucesso!',
                 data: editPessoa
             }
-        } catch (error) {
+        } catch (error: unknown) {
             return {
                 success: false,
                 message: 'Erro ao Editar registro!',
-                error: error
+                error: error as Error
             }
         }
     }
