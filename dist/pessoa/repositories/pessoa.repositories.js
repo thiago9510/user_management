@@ -40,9 +40,8 @@ class PessoaRepository {
     }
     /**
     * Método para Consultar Registros de uma Entidade
-    * @template U - O tipo parcial dos critérios de busca.
     * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
-    * @returns {Promise<[]>} - retorna um Objeto consultado, Todos ou erro.
+    * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
     */
     async search(el) {
         try {
@@ -72,14 +71,14 @@ class PessoaRepository {
   * @param {PessoaEntity} pessoa - Recebe
   * @returns {Promise<PessoaEntity>} - retorna a pessoa editada
   * @throws {Error} - Lança um erro em caso de falha
-*/
+    */
     async edit(query, pessoa) {
         try {
             const queryReturn = await this.repository.find({ where: query });
             if (queryReturn.length != 1) {
                 throw {
                     name: 'Invalid Parameter',
-                    message: 'Id Inválido ou não localizado'
+                    message: 'Invalid ID or not found'
                 };
             }
             else {
@@ -103,6 +102,32 @@ class PessoaRepository {
             }
             else {
                 throw error;
+            }
+        }
+    }
+    /**
+    * Método para Deletar instâncias de InstanciasUniversaEntity.
+    *
+    * @param { Partial<PessoaEntity>} [query] - Recebe um critério de busca
+    * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
+    */
+    async delete(query) {
+        try {
+            const response = await this.repository.delete(query);
+            return response;
+        }
+        catch (error) {
+            if (error instanceof typeorm_1.QueryFailedError) {
+                throw {
+                    name: error.name,
+                    message: error.message
+                };
+            }
+            else {
+                throw {
+                    name: 'Erro ao consultar Registro!',
+                    message: error
+                };
             }
         }
     }

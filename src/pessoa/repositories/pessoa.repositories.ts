@@ -113,7 +113,7 @@ export class PessoaRepository {
     */
     async delete(query: Partial<PessoaEntity>): Promise<DeleteResult | Error> {
         try {
-            const response = await this.repository.delete(query)
+            const response = await this.repository.delete(query)            
             return response
         } catch (error) {
             if (error instanceof QueryFailedError) {

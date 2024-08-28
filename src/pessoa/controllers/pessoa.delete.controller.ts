@@ -5,12 +5,11 @@ import { PessoaAddInterface } from "../interfaces/pessoa.add.interface"
 import { PessoaService } from "../services/pessoa.service"
 
 export const pessoaDeleteController = async (req: Request, res: Response) => {
-    const { id } = req.params
-
+    const pessoaId = parseInt(req.params.id)
     
     try {
         const service = new PessoaService()//criar serviço igual no outro projeto
-        const response = await service.deletePessoa(id)
+        const response = await service.deletePessoa(pessoaId)
         return res.status(200).json({
             sucess: true,
             menssagem: response

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pessoaEditMiddlewar = void 0;
+exports.pessoaEditMiddleware = void 0;
 const pessoa_add_schemas_1 = require("../schemas/pessoa.add.schemas");
 const generalValidation_1 = require("../../dataValidation/services/generalValidation");
-const pessoaEditMiddlewar = async (req, res, next) => {
+const pessoaEditMiddleware = async (req, res, next) => {
     const pessoaId = req.params.id;
     const pessoa = req.body;
     const isNumeric = (param) => {
@@ -25,4 +25,4 @@ const pessoaEditMiddlewar = async (req, res, next) => {
     }
     next();
 };
-exports.pessoaEditMiddlewar = pessoaEditMiddlewar;
+exports.pessoaEditMiddleware = pessoaEditMiddleware;

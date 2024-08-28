@@ -2,7 +2,7 @@ import { PessoaEntity } from "../../database/entity/pessoasEntity";
 import { PessoaAddInterface } from "../interfaces/pessoa.add.interface";
 import { PessoaRepository } from "../repositories/pessoa.repositories";
 import { PessoaResultInterface, QueryFailedPessoaError } from "../interfaces/pessoa.interface";
-import { QueryFailedError } from "typeorm";
+import { DeleteResult, QueryFailedError } from "typeorm";
 
 
 export class PessoaService {
@@ -93,14 +93,30 @@ export class PessoaService {
    * @returns retorno da consulta
 */
 
-    async deletePessoa(pessoaId: number) { //criar interface retorno
-
+    async deletePessoa(pessoaId: number) {
         try {
-            const repositoryMethods = await this.repoPessoa.delete({ pessoa_id: pessoaId })
-            if (repositoryMethods) {
-                return repositoryMethods
+            const repositoryMethods: DeleteResult | Error = await this.repoPessoa.delete({ pessoa_id: pessoaId })
+
+            if (repositoryMethods instanceof Error) {
+                return {
+                    success: false,
+                    message: 'Erro ao deletar registro',
+                    error: repositoryMethods
+                }
             }
-        } catch (error) {
+
+            if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
+                return {
+                    success: true,
+                    message: 'Nenhum Registro deletado',                   
+                }
+            }
+            return {
+                success: true,
+                message: 'Registro deletado'               
+            }
+
+        } catch (error: unknown) {
             if (error instanceof QueryFailedError) {
                 if ((error as any).code === 'ER_ROW_IS_REFERENCED_2') {
                     return {
@@ -109,20 +125,24 @@ export class PessoaService {
                         error: error
                     }
                 }
-                else {
-                    return {
-                        success: false,
-                        message: 'Erro ao Editar registro!',
-                        error: error
-                    }
-                }
-            } else {
                 return {
                     success: false,
-                    message: error
+                    message: 'Erro ao Editar registro!',
+                    error: error
+                }
+                
+            } else if (error instanceof Error){
+                return {
+                    success: false,
+                    message: 'Erro desconhecido ocorreu.',
+                    error: error
                 }
             }
+            return {
+                success: false,
+                message: 'Ocorreu um erro inesperado.',
+                error: ''
+            };
         }
-
     }
 }

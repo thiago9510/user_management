@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PessoaService = void 0;
 const pessoa_repositories_1 = require("../repositories/pessoa.repositories");
+const typeorm_1 = require("typeorm");
 class PessoaService {
     constructor() {
         this.repoPessoa = new pessoa_repositories_1.PessoaRepository();
@@ -72,6 +73,63 @@ class PessoaService {
                 success: false,
                 message: 'Erro ao Editar registro!',
                 error: error
+            };
+        }
+    }
+    /**
+   * Edita pessoa.
+   * @param parm - Parametro da consulta
+   * @returns retorno da consulta
+*/
+    async deletePessoa(pessoaId) {
+        try {
+            const repositoryMethods = await this.repoPessoa.delete({ pessoa_id: pessoaId });
+            if (repositoryMethods instanceof Error) {
+                return {
+                    success: false,
+                    message: 'Erro ao deletar registro',
+                    error: repositoryMethods
+                };
+            }
+            if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
+                return {
+                    success: true,
+                    message: 'Nenhum Registro geletado',
+                    error: ''
+                };
+            }
+            return {
+                success: true,
+                message: 'Registro deletado',
+                error: ''
+            };
+        }
+        catch (error) {
+            if (error instanceof typeorm_1.QueryFailedError) {
+                if (error.code === 'ER_ROW_IS_REFERENCED_2') {
+                    return {
+                        success: false,
+                        message: 'A pessoa não pode ser deletada pois existem registros vinculados!',
+                        error: error
+                    };
+                }
+                return {
+                    success: false,
+                    message: 'Erro ao Editar registro!',
+                    error: error
+                };
+            }
+            else if (error instanceof Error) {
+                return {
+                    success: false,
+                    message: 'Erro desconhecido ocorreu.',
+                    error: error
+                };
+            }
+            return {
+                success: false,
+                message: 'Ocorreu um erro inesperado.',
+                error: ''
             };
         }
     }
