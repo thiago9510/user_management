@@ -29,6 +29,7 @@ export class PessoaRepository {
             if (error instanceof QueryFailedError) {
                 throw {
                     name: error.name,
+                    code: (error as any).code,
                     message: error.message
                 }
             } else {
@@ -89,18 +90,16 @@ export class PessoaRepository {
             }
         } catch (error) {
             if (error instanceof QueryFailedError) {
-                if (error.message.includes('ER_DUP_ENTRY')) {
-                    throw {
-                        name: 'Duplicate data',
-                        message: 'The Email or CPF is already registered in the system for another user'
-                    }
-                }
                 throw {
                     name: error.name,
+                    code: (error as any).code,
                     message: error.message
                 }
             } else {
-                throw error
+                throw {
+                    name: 'Erro ao salvar Registro!',
+                    message: error
+                }
             }
         }
     }

@@ -22,6 +22,13 @@ class PessoaService {
             };
         }
         catch (error) {
+            if (error.code === 'ER_DUP_ENTRY') {
+                return {
+                    success: false,
+                    error: error.code,
+                    message: 'os dados informados já estão em uso',
+                };
+            }
             return {
                 success: false,
                 message: 'Erro ao adicionar registro!',
@@ -69,6 +76,13 @@ class PessoaService {
             };
         }
         catch (error) {
+            if (error.code === 'ER_DUP_ENTRY') {
+                return {
+                    success: false,
+                    error: error.code,
+                    message: 'os dados informados já estão em uso',
+                };
+            }
             return {
                 success: false,
                 message: 'Erro ao Editar registro!',

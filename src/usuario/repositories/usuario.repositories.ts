@@ -28,10 +28,11 @@ export class UsuarioRepository {
             usuario.pessoa_id = {pessoa_id: usuario.pessoa_id} as PessoaEntity        
             const execSQL = await this.repository.save(usuario)
             return execSQL
-        } catch (error) {
+        } catch (error) {           
             if (error instanceof QueryFailedError) {
                 throw {
                     name: error.name,
+                    code: (error as any).code,
                     message: error.message
                 }
             } else {

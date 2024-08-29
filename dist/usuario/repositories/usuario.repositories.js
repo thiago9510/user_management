@@ -20,9 +20,8 @@ class UsuarioRepository {
     */
     async create(usuario) {
         try {
-            console.log(usuario);
-            usuario.pessoa_id = { pessoa_id: usuario.pessoa_id }; //necessário para associar o parametro do id ao pessoa_id e o typeorm reconhecer
-            console.log(usuario);
+            //necessário para associar o parametro do id a pessoa_id e o typeorm reconhecer               
+            usuario.pessoa_id = { pessoa_id: usuario.pessoa_id };
             const execSQL = await this.repository.save(usuario);
             return execSQL;
         }
@@ -30,6 +29,7 @@ class UsuarioRepository {
             if (error instanceof typeorm_1.QueryFailedError) {
                 throw {
                     name: error.name,
+                    code: error.code,
                     message: error.message
                 };
             }

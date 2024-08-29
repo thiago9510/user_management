@@ -16,4 +16,5 @@ export interface UsuarioResultInterface{
     message?: string,   // Mensagem opcional para informações adicionais
     data?: any,  // Dados da pessoa criada, caso tenha sucesso
     error?: string | Error  // Mensagem de erro opcional
+    code?: any
 }

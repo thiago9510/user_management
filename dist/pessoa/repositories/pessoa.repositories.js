@@ -27,6 +27,7 @@ class PessoaRepository {
             if (error instanceof typeorm_1.QueryFailedError) {
                 throw {
                     name: error.name,
+                    code: error.code,
                     message: error.message
                 };
             }
@@ -89,19 +90,17 @@ class PessoaRepository {
         }
         catch (error) {
             if (error instanceof typeorm_1.QueryFailedError) {
-                if (error.message.includes('ER_DUP_ENTRY')) {
-                    throw {
-                        name: 'Duplicate data',
-                        message: 'The Email or CPF is already registered in the system for another user'
-                    };
-                }
                 throw {
                     name: error.name,
+                    code: error.code,
                     message: error.message
                 };
             }
             else {
-                throw error;
+                throw {
+                    name: 'Erro ao salvar Registro!',
+                    message: error
+                };
             }
         }
     }

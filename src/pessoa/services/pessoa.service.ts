@@ -27,6 +27,13 @@ export class PessoaService {
                 data: createPessoa
             }
         } catch (error) {
+            if((error as any).code === 'ER_DUP_ENTRY'){
+                return {
+                    success: false,
+                    error: (error as any).code,
+                    message: 'os dados informados já estão em uso',                    
+                }
+            }
             return {
                 success: false,
                 message: 'Erro ao adicionar registro!',
@@ -77,11 +84,18 @@ export class PessoaService {
                 message: 'Registro alterado com sucesso!',
                 data: editPessoa
             }
-        } catch (error: unknown) {
+        } catch (error) {
+            if((error as any).code === 'ER_DUP_ENTRY'){
+                return {
+                    success: false,
+                    error: (error as any).code,
+                    message: 'os dados informados já estão em uso',                    
+                }
+            }
             return {
                 success: false,
                 message: 'Erro ao Editar registro!',
-                error: error as Error
+                error: error as any
             }
         }
     }
