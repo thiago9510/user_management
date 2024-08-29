@@ -48,4 +48,33 @@ export class UsuarioService {
             }
         }
     }
+
+    
+    /**
+        * Busca um usuario.
+        * @param queryParameter - Parametro da consulta
+        * @returns retorno da consulta
+   */
+
+    async searchUsuario(queryParameter: { [key: string]: string }): Promise<UsuarioResultInterface> {
+        const arrParameters = Object.keys(queryParameter)
+        const parameter = arrParameters[0]
+        const valorParameter = queryParameter[parameter]
+        
+        const searchUsuario = await this.repoUsuario.search({ [parameter]: valorParameter })
+        if (searchUsuario instanceof Error) {
+            return {
+                success: false,
+                message: 'Erro ao Consultar Usuario',
+                error: searchUsuario
+            }
+        } else {
+            return {
+                success: true,
+                message: 'Consulta realizada com sucesso!',
+                data: searchUsuario
+            }
+        }
+    }
+
 }

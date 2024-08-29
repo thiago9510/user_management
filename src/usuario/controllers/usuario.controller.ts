@@ -14,3 +14,16 @@ export const usuarioAddControlle = async (req: Request, res: Response) => {
         res.status(200).json(response)
     }    
 }
+
+//Read
+export const usuarioSearchController = async (req: Request, res: Response) => {    
+    //ajustar para realizar o search
+    const pessoa: any = req.query
+    const service = new UsuarioService()
+    const response = await service.searchUsuario(pessoa)
+    if(response.success == false){
+        res.status(400).json(response)
+    }else{        
+        res.status(200).json(response)
+    }
+}

@@ -43,4 +43,29 @@ export class UsuarioRepository {
             }
         }
     }
+
+     /**
+    * Método para Consultar Registros de uma Entidade    
+    * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
+    * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
+    */
+     async search(el: {} | any): Promise<UsuarioEntity[] | Error> {
+        try {
+            const isEmpty = (obj: object) => Object.keys(obj).length === 0
+            const response = isEmpty(el) ? this.repository.find() : this.repository.find({ where: el })
+            return await response
+        } catch (error) {
+            if (error instanceof QueryFailedError) {
+                throw {
+                    name: error.name,
+                    message: error.message
+                }
+            } else {
+                throw {
+                    name: 'Erro ao consultar Registro!',
+                    message: error
+                }
+            }
+        }
+    }
 }
