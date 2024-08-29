@@ -1,4 +1,3 @@
-import { PessoaEntity } from "../../database/entity/pessoasEntity";
 
 export interface PessoaAddInterface {
     pessoa_id?: number

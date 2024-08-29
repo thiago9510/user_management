@@ -37,8 +37,7 @@ export class ArrayParameterValidation{
                 message: 'parametro Válido'
             }
         }
-        else if (!this.arr.includes(parameter)) {
-            console.log(arrParameters)
+        else if (!this.arr.includes(parameter)) {            
             return {
                 success: false,
                 message: 'parametro inválido',           
