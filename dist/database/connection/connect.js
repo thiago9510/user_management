@@ -17,7 +17,7 @@ const db_port = () => {
         return 3306;
     }
 };
-//somente verifica se foi o logger do typeorm foi habilitado
+//somente verifica se o logger do typeorm foi habilitado
 const logging = () => {
     if (process.env.DB_LOGGING || process.env.DB_LOGGING === "true") {
         return true;
@@ -28,7 +28,7 @@ const logging = () => {
 };
 exports.databaseConnection = new typeorm_1.DataSource({
     type: "mysql",
-    host: process.env.DB_HOST, //localhost server - faveni 172.16.0.27
+    host: process.env.DB_HOST,
     port: db_port() || 3306,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
