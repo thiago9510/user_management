@@ -15,6 +15,8 @@ export const usuarioAddControlle = async (req: Request, res: Response) => {
     }    
 }
 
+
+
 //Read
 export const usuarioSearchController = async (req: Request, res: Response) => {    
     //ajustar para realizar o search
