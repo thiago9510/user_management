@@ -1,0 +1,37 @@
+Padrões de Nomes de Commit para Refatoração
+
+Tipo de refatoração + breve descrição
+Exemplo: refactor(api): reorganize routes for better clarity
+Exemplo: refactor(database): optimize query performance
+
+Melhoria de desempenho
+Exemplo: refactor(performance): improve database indexing
+Exemplo: refactor(optimization): enhance response time for API
+
+Limpeza de código
+Exemplo: refactor(cleanup): remove unused imports and variables
+Exemplo: refactor(cleanup): simplify logic in user authentication
+
+Reorganização de estrutura de código
+Exemplo: refactor(structure): move user service to a dedicated module
+Exemplo: refactor(architecture): separate concerns in user handling
+
+Melhorias de legibilidade
+Exemplo: refactor(readability): rename variables for clarity
+Exemplo: refactor(style): format code for consistency
+
+Aprimoramento de testes
+Exemplo: refactor(tests): enhance unit tests for user service
+Exemplo: refactor(testing): improve coverage in order processing
+
+Remoção de código legado
+Exemplo: refactor(legacy): remove deprecated user authentication logic
+Exemplo: refactor(legacy): eliminate old API endpoints
+
+Modificações de interface de função
+Exemplo: refactor(api): change user endpoint to accept pagination
+Exemplo: refactor(interfaces): update response format for user data
+
+Refatoração de dependências
+Exemplo: refactor(dependencies): update express version for security
+Exemplo: refactor(modules): reorganize third-party library usage

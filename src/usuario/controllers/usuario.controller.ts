@@ -50,10 +50,12 @@ export const usuarioDeleteController = async (req: Request, res: Response) => {
     try {
         const service = new UsuarioService()
         const response = await service.deleteUsuario(pessoaId)
-        return res.status(200).json({
-            sucess: true,
-            menssagem: response
-        })
+        if(response != undefined || response != null){
+            return res.status(response.status as number).json({
+                sucess: response.success,
+                menssagem: response.message
+            }) 
+        }      
     } catch (error) {
         return res.status(400).json({
             sucess: false,

@@ -18,9 +18,9 @@ export const pessoaAddController = async (req: Request, res: Response) => {
 //read
 export const pessoaSearchController = async (req: Request, res: Response) => {    
 
-    //ajustar para realizar o search
+    //ajustar para realizar o search    
     const pessoa: any = req.query
-    const service = new PessoaService()
+    const service = new PessoaService()    
     const response = await service.searchPessoa(pessoa)     
     if(response.success == false){
         res.status(400).json(response)
@@ -43,17 +43,20 @@ export const pessoaEditController = async (req: Request, res: Response) => {
     }    
 }
 
-//delte
+//delte (obs o retorno foi tratado de forma diferente para testar)
 export const pessoaDeleteController = async (req: Request, res: Response) => {
     const pessoaId = parseInt(req.params.id)
     
     try {
         const service = new PessoaService()
         const response = await service.deletePessoa(pessoaId)
-        return res.status(200).json({
-            sucess: true,
-            menssagem: response
-        })
+        if(response != undefined || response != null){
+            return res.status(response.status as number).json({
+                sucess: response.success,
+                menssagem: response.message
+            }) 
+        }      
+   
     } catch (error) {
         return res.status(400).json({
             sucess: false,

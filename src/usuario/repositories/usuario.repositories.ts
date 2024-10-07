@@ -127,9 +127,10 @@ export class UsuarioRepository {
             const response = await this.repository.delete(query)
             return response
         } catch (error) {
-            if (error instanceof QueryFailedError) {
+            if (error instanceof QueryFailedError) {                
                 throw {
                     name: error.name,
+                    code: (error as any).code,
                     message: error.message
                 }
             } else {

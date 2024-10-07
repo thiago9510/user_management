@@ -83,8 +83,8 @@ export class UsuarioService {
     */
     async editUsuario(usuarioId: number, usuario: UsuarioInterface): Promise<UsuarioResultInterface> {
         try {
-                //verifica password, se sim, criptografa se não, não
-            const DadosEditUser = async () => {               
+            //verifica password, se sim, criptografa se não, não
+            const DadosEditUser = async () => {
                 if (usuario.usuario_password) {
                     const passwordHash = await new CryptoData().create(usuario.usuario_password)
                     return { ...usuario, usuario_password: passwordHash }
@@ -138,6 +138,7 @@ export class UsuarioService {
             if (repositoryMethods instanceof Error) {
                 return {
                     success: false,
+                    status: 400,
                     message: 'Erro ao deletar registro',
                     error: repositoryMethods
                 }
@@ -146,40 +147,41 @@ export class UsuarioService {
             if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
                 return {
                     success: true,
+                    status: 200,
                     message: 'Nenhum Registro deletado',
                 }
             }
             return {
                 success: true,
+                status: 200,
                 message: 'Registro deletado'
             }
 
         } catch (error: unknown) {
-            if (error instanceof QueryFailedError) {
+            if((error as any).name == 'QueryFailedError'){               
                 if ((error as any).code === 'ER_ROW_IS_REFERENCED_2') {
                     return {
                         success: false,
-                        message: 'O usuario não pode ser deletada pois existem registros vinculados!',
-                        error: error
+                        status: 409,
+                        message: 'A pessoa não pode ser deletada pois existem registros vinculados!',
+                        error: (error as any).code
                     }
-                }
+                    //adicionar outros erros que queira tratar
+                } else {
+                    return {
+                        success: false,
+                        status: 400,
+                        message: 'Erro ao Deletar registro',
+                        error: (error as any).code
+                    }
+                }                
+            } else{
                 return {
                     success: false,
-                    message: 'Erro ao Editar registro!',
-                    error: error
-                }
-
-            } else if (error instanceof Error) {
-                return {
-                    success: false,
+                    status: 400,
                     message: 'Erro desconhecido ocorreu.',
                     error: error
                 }
-            }
-            return {
-                success: false,
-                message: 'Ocorreu um erro inesperado.',
-                error: ''
             }
         }
     }

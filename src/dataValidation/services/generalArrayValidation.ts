@@ -25,16 +25,11 @@ export class ArrayParameterValidation{
     check(data: ObjectLiteral): CheckRetunValidationInterface{
         const arrParameters = Object.keys(data)         
         const parameter = arrParameters[0]
-        if(arrParameters.length > 1){ //||               
+        if(arrParameters.length != 1){ //||               
             return {
                 success: false,
                 message: 'Quantidade de parametros Inválidos',           
                 error: 'ArrayParameterValidation-error'
-            }
-        }else if (arrParameters.length === 0){
-            return {
-                success: true,
-                message: 'parametro Válido'
             }
         }
         else if (!this.arr.includes(parameter)) {            

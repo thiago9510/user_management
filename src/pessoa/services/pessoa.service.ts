@@ -108,10 +108,11 @@ export class PessoaService {
     async deletePessoa(pessoaId: number) {
         try {
             const repositoryMethods: DeleteResult | Error = await this.repoPessoa.delete({ pessoa_id: pessoaId })
-
+            
             if (repositoryMethods instanceof Error) {
                 return {
                     success: false,
+                    status: 400,
                     message: 'Erro ao deletar registro',
                     error: repositoryMethods
                 }
@@ -120,40 +121,41 @@ export class PessoaService {
             if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
                 return {
                     success: true,
+                    status: 200,
                     message: 'Nenhum Registro deletado',                   
                 }
             }
             return {
                 success: true,
+                status: 200,
                 message: 'Registro deletado'               
             }
 
-        } catch (error: unknown) {
-            if (error instanceof QueryFailedError) {
+        } catch (error: unknown) {        
+            if((error as any).name == 'QueryFailedError'){               
                 if ((error as any).code === 'ER_ROW_IS_REFERENCED_2') {
                     return {
                         success: false,
+                        status: 409,
                         message: 'A pessoa não pode ser deletada pois existem registros vinculados!',
-                        error: error
+                        error: (error as any).code
                     }
-                }
+                    //adicionar outros erros que queira tratar
+                } else {
+                    return {
+                        success: false,
+                        status: 400,
+                        message: 'Erro ao Deletar registro',
+                        error: (error as any).code
+                    }
+                }                
+            } else{
                 return {
                     success: false,
-                    message: 'Erro ao Editar registro!',
-                    error: error
-                }
-                
-            } else if (error instanceof Error){
-                return {
-                    success: false,
+                    status: 400,
                     message: 'Erro desconhecido ocorreu.',
                     error: error
                 }
-            }
-            return {
-                success: false,
-                message: 'Ocorreu um erro inesperado.',
-                error: ''
             }
         }
     }
