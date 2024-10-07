@@ -100,12 +100,11 @@ export class PessoaService {
         }
     }
 
-    /**
-   * Edita pessoa.
+   /**
+   * Deleta pessoa.
    * @param parm - Parametro da consulta
    * @returns retorno da consulta
-*/
-
+   */
     async deletePessoa(pessoaId: number) {
         try {
             const repositoryMethods: DeleteResult | Error = await this.repoPessoa.delete({ pessoa_id: pessoaId })

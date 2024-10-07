@@ -61,8 +61,7 @@ export const pessoaEditMiddleware = async (req: Request, res: Response, next: Ne
 
 //delete
 export const pessoaDeleteMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const pessoaId: string = req.params.id
-    console.log(pessoaId)
+    const pessoaId: string = req.params.id    
     const isNumeric = (param: string) => {
         return /^[0-9]+$/.test(param)
     }

@@ -2,8 +2,8 @@ import express from 'express'
 import { Request, Response } from 'express'
 import { pessoaAddController, pessoaDeleteController, pessoaEditController, pessoaSearchController } from '../pessoa/controllers/pessoa.controller'
 import { pessoaAddMiddlewar, pessoaDeleteMiddleware, pessoaEditMiddleware, pessoaSearchMiddleware } from '../pessoa/middlewares/pessoa.middleware'
-import { usuarioAddMiddleware, usuarioSearchMiddleware } from '../usuario/middlewares/usuario.middleware'
-import { usuarioAddControlle, usuarioSearchController } from '../usuario/controllers/usuario.controller'
+import { usuarioAddMiddleware, usuarioDeleteMiddleware, usuarioEditMiddleware, usuarioSearchMiddleware } from '../usuario/middlewares/usuario.middleware'
+import { usuarioAddControlle, usuarioDeleteController, usuarioEditController, usuarioSearchController } from '../usuario/controllers/usuario.controller'
 
 
 export const router = express.Router()
@@ -23,5 +23,5 @@ router.delete('/pessoas/delete/:id',pessoaDeleteMiddleware, pessoaDeleteControll
 // CRUD USUARIO
 router.post('/usuarios/add',usuarioAddMiddleware, usuarioAddControlle) 
 router.get('/usuarios/search',usuarioSearchMiddleware, usuarioSearchController) 
-//router.put('/usuarios/edit/:id',usuarioEditMiddleware, usuarioEditController)
-//router.delete('/usuarios/delete/:id',usuarioDeleteMiddleware, usuarioDeleteController)
+router.put('/usuarios/edit/:id',usuarioEditMiddleware, usuarioEditController)
+router.delete('/usuarios/delete/:id',usuarioDeleteMiddleware, usuarioDeleteController)

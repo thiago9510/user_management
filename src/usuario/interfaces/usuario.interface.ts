@@ -18,3 +18,7 @@ export interface UsuarioResultInterface{
     error?: string | Error  // Mensagem de erro opcional
     code?: any
 }
+
+export type SingleUserProperty<T> = { // tipo que serve para receber apenas uma propriedade do tipo definido
+    [K in keyof T]: Pick<T, K>
+}[keyof T]

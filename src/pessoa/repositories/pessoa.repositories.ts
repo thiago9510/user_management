@@ -1,4 +1,4 @@
-import { DeleteResult, QueryFailedError, Repository } from "typeorm";
+import { DeleteResult, QueryFailedError, Repository, Like } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
 import { PessoaEntity } from "../../database/entity/pessoasEntity";
 import { QueryFailedPessoaError } from "../interfaces/pessoa.interface";
@@ -49,7 +49,13 @@ export class PessoaRepository {
     async search(el: {} | any): Promise<PessoaEntity[] | Error> {
         try {
             const isEmpty = (obj: object) => Object.keys(obj).length === 0
-            const response = isEmpty(el) ? this.repository.find() : this.repository.find({ where: el })
+            const [[key, value]] = Object.entries(el)
+            const response = isEmpty(el) ? this.repository.find() : this.repository.find(
+                {
+                    where: {
+                        [key]: Like(`%${value}%`)
+                    }
+                })
             return await response
         } catch (error) {
             if (error instanceof QueryFailedError) {
@@ -76,7 +82,11 @@ export class PessoaRepository {
     */
     async edit(query: SinglePessoaProperty<PessoaEntity>, pessoa: PessoaEntity): Promise<PessoaEntity | Error> {
         try {
-            const queryReturn: PessoaEntity[] = await this.repository.find({ where: query })
+            const queryReturn: PessoaEntity[] = await this.repository.find(
+                {
+                    where: query
+                }
+            )
 
             if (queryReturn.length != 1) {
                 throw {
@@ -105,14 +115,14 @@ export class PessoaRepository {
     }
 
     /**
-    * Método para Deletar instâncias de InstanciasUniversaEntity.
+    * Método para Deletar Pessoas.
     *       
     * @param { Partial<PessoaEntity>} [query] - Recebe um critério de busca
     * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
     */
     async delete(query: Partial<PessoaEntity>): Promise<DeleteResult | Error> {
         try {
-            const response = await this.repository.delete(query)            
+            const response = await this.repository.delete(query)
             return response
         } catch (error) {
             if (error instanceof QueryFailedError) {

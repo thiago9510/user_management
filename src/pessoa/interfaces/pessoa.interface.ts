@@ -22,6 +22,7 @@ export interface PessoaResultInterface{
     message?: string,   // Mensagem opcional para informações adicionais
     data?: any,  // Dados da pessoa criada, caso tenha sucesso
     error?: string | Error  // Mensagem de erro opcional
+    code?: any
 }
 
 export type SinglePessoaProperty<T> = { // tipo que serve para receber apenas uma propriedade do tipo definido
