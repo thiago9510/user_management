@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { BodyValidator } from "../../dataValidation/services/generalValidation"
 import { ArrayParameterValidation } from "../../dataValidation/services/generalArrayValidation"
-import { pessoasSchemas } from "../schemas/pessoa.schemas"
+import { pessoasEditSchemas, pessoasSchemas } from "../schemas/pessoa.schemas"
 import { PessoaAddInterface } from "../interfaces/pessoa.interface"
 
 
@@ -48,7 +48,7 @@ export const pessoaEditMiddleware = async (req: Request, res: Response, next: Ne
         })
     }
     
-    const validator = new BodyValidator(pessoasSchemas)
+    const validator = new BodyValidator(pessoasEditSchemas)
     const returnValidation = validator.validate(pessoa)
     if (!returnValidation.success) {
         return res.status(400).json({

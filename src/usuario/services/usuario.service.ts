@@ -83,7 +83,28 @@ export class UsuarioService {
     */
     async editUsuario(usuarioId: number, usuario: UsuarioInterface): Promise<UsuarioResultInterface> {
         try {
-            const editUsuario = await this.repoUsuario.edit({ 'usuario_id': usuarioId }, usuario)
+                //verifica password, se sim, criptografa se não, não
+            const DadosEditUser = async () => {               
+                if (usuario.usuario_password) {
+                    const passwordHash = await new CryptoData().create(usuario.usuario_password)
+                    return { ...usuario, usuario_password: passwordHash }
+                } else {
+                    return usuario
+                }
+            }
+            const editUsuario = await this.repoUsuario.edit(
+                { 'usuario_id': usuarioId },
+                await DadosEditUser()
+            )
+
+            if (!editUsuario || editUsuario instanceof Error) {
+                return {
+                    success: false,
+                    message: 'Erro ao Editar registro!',
+                    error: editUsuario
+                }
+            }
+            delete editUsuario.usuario_password //removendo a senha do retorno do edit
             return {
                 success: true,
                 message: 'Registro alterado com sucesso!',
@@ -105,12 +126,12 @@ export class UsuarioService {
         }
     }
 
-       /**
-   * Deleta usuario.
-   * @param parm - Parametro da consulta
-   * @returns retorno da consulta
-   */
-    async deleteUsuario(usuarioId: number){
+    /**
+* Deleta usuario.
+* @param parm - Parametro da consulta
+* @returns retorno da consulta
+*/
+    async deleteUsuario(usuarioId: number) {
         try {
             const repositoryMethods: DeleteResult | Error = await this.repoUsuario.delete({ usuario_id: usuarioId })
 
@@ -125,12 +146,12 @@ export class UsuarioService {
             if (!repositoryMethods.affected || repositoryMethods.affected === 0) {
                 return {
                     success: true,
-                    message: 'Nenhum Registro deletado',                   
+                    message: 'Nenhum Registro deletado',
                 }
             }
             return {
                 success: true,
-                message: 'Registro deletado'               
+                message: 'Registro deletado'
             }
 
         } catch (error: unknown) {
@@ -147,8 +168,8 @@ export class UsuarioService {
                     message: 'Erro ao Editar registro!',
                     error: error
                 }
-                
-            } else if (error instanceof Error){
+
+            } else if (error instanceof Error) {
                 return {
                     success: false,
                     message: 'Erro desconhecido ocorreu.',

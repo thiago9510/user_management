@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { BodyValidator } from "../../dataValidation/services/generalValidation"
-import { usuarioSchemas } from "../schemas/usuario.schemas"
+import { usuarioEditSchemas, usuarioSchemas } from "../schemas/usuario.schemas"
 import { ArrayParameterValidation } from "../../dataValidation/services/generalArrayValidation"
 import { UsuarioService } from "../services/usuario.service"
 import { UsuarioInterface } from "../interfaces/usuario.interface"
@@ -51,11 +51,11 @@ export const usuarioEditMiddleware = async (req: Request, res: Response, next: N
         })
     }
 
-    const validator = new BodyValidator(usuarioSchemas)
-    const returnValidation = validator.validate(usuario)    
+    const validator = new BodyValidator(usuarioEditSchemas)
+    const returnValidation = validator.validate(usuario)   
+
     if (!returnValidation.success) {
-        return res.status(400).json({
-            
+        return res.status(400).json({            
             sucess: false,
             message: 'Dados Inválidos'
         })

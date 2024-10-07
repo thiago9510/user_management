@@ -23,3 +23,27 @@ export const usuarioSchemas: { [key: string]: BodyValidatorDefinition } = {
         length: 255
     }
 }
+
+export const usuarioEditSchemas: { [key: string]: BodyValidatorDefinition } = {
+    usuario_login: {
+        required: false,
+        type: 'string',
+        length: 255
+    },
+    usuario_password: {
+        required: false,
+        type: 'string',
+        length: 255
+    },
+    usuario_status: {
+        required: false,
+        type: 'string',
+        length: 255,
+        enum: ['Ativo', 'Inativo']
+    },
+    pessoa_id: {
+        required: false,
+        type: 'number',
+        length: 255
+    }
+}

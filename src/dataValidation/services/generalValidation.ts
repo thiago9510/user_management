@@ -27,9 +27,11 @@ export class BodyValidator {
         //valida parametro não definidos no escopo do objeto
         for (let elbody of Object.keys(this.definitions)) {
             if (parameters[elbody] === undefined) {
-                return {
-                    sucess: false,
-                    message: `Parametro Obrigatório: ${elbody}`
+                if (this.definitions[elbody].required == true) {
+                    return {
+                        sucess: false,
+                        message: `Parametro Obrigatório: ${elbody}`
+                    }
                 }
             }
         }
@@ -38,7 +40,7 @@ export class BodyValidator {
             const definition = this.definitions[el]
             const value = parameters[el]
 
-            if (!definition) {                
+            if (!definition) {
                 return {
                     success: false,
                     message: `Parâmetro inválido: ${el}`
@@ -52,48 +54,48 @@ export class BodyValidator {
                 return {
                     success: false,
                     message: `Tipo de valor inválido para o parâmetro ${el}: ${typeof value}. Tipo esperado: ${definition.type}`
-                }                
-            } else if (definition.length < value.length){
+                }
+            } else if (definition.length < value.length) {
                 return {
                     success: false,
                     message: `Tamanho inválido para o parâmetro ${el}. Tamanho máximo: ${definition.length}`
-                }  
+                }
 
-            } else if (definition.format){
-                if(definition.format === 'ISO8601'){
-                    const iso8601Regex = /^\d{4}-\d{2}-\d{2}$/                    
-                    if(!iso8601Regex.test(value)){
+            } else if (definition.format) {
+                if (definition.format === 'ISO8601') {
+                    const iso8601Regex = /^\d{4}-\d{2}-\d{2}$/
+                    if (!iso8601Regex.test(value)) {
                         return {
                             success: false,
                             message: `Valor do parametro: ${el} Inválido. Formato esperado: YYYY-MM-DD. Data recebida: ${value}`
                         }
-                    }                    
+                    }
                 } else if (definition.format === 'telefone' || definition.format === 'cpf') {
-                    const numberRegex =  /^\d+$/
-                    if(!numberRegex.test(value)){
+                    const numberRegex = /^\d+$/
+                    if (!numberRegex.test(value)) {
                         return {
                             success: false,
                             message: `valor do parametro: ${el} Inválido. Formato esperado: números sem caracteres especiais. valore recebido: ${value}`
                         }
                     }
-                } else if (definition.format === 'email'){
+                } else if (definition.format === 'email') {
                     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
                     if (!emailRegex.test(value)) {
                         return {
-                          success: false,
-                          message: `Email do parâmetro: ${el} inválido. Formato esperado: usuário@dominio.com.br. Email recebido: ${value}`
+                            success: false,
+                            message: `Email do parâmetro: ${el} inválido. Formato esperado: usuário@dominio.com.br. Email recebido: ${value}`
                         }
                     }
                 }
 
                 else {
                     return {
-                    success: false,
-                    message: `Formato do parametro: ${el} Inválido. Forma esperado: ${definition.format}`
+                        success: false,
+                        message: `Formato do parametro: ${el} Inválido. Forma esperado: ${definition.format}`
                     }
                 }
             }
-        }   
+        }
         return {
             success: true,
             parameters
