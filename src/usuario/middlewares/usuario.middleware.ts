@@ -55,6 +55,7 @@ export const usuarioEditMiddleware = async (req: Request, res: Response, next: N
     const returnValidation = validator.validate(usuario)    
     if (!returnValidation.success) {
         return res.status(400).json({
+            
             sucess: false,
             message: 'Dados Inválidos'
         })
