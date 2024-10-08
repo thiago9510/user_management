@@ -1,32 +1,28 @@
 import { DeleteResult, QueryFailedError, Repository, Like } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
-
-import { UsuarioEntity } from "../../database/entity/usuariosEntity";
-import { SingleUserProperty, UsuarioInterface } from "../interfaces/usuario.interface";
-import { PessoaEntity } from "../../database/entity/pessoasEntity";
+import { gruposusuariosEntity } from "../../database/entity/gruposUsuariosEntity";
+import { SingleUserProperty } from "../interfaces/grupoUsuarios.interface";
 
 /**
- *Classe responsável por Integrar com a entidade UsuarioEntity
+ *Classe responsável por Integrar com a entidade gruposusuariosEntity
 */
-export class UsuarioRepository {
-    private repository: Repository<UsuarioEntity>
+export class GrupoUsuariosRepository {
+    private repository: Repository<gruposusuariosEntity>
 
     constructor() {
-        this.repository = databaseConnection.getRepository(UsuarioEntity)
+        this.repository = databaseConnection.getRepository(gruposusuariosEntity)
     }
 
     /**
-     *Método para Adicionar Usuario.
-      *       
-      * @param {UsuarioEntity} usuario - Recebe
-      * @returns {Promise<UsuarioEntity>} - retorna usuario criada
-      * @throws {Error} - Lança um erro em caso de falha
+        *Método para Adicionar Usuario.
+        *       
+        * @param {gruposusuariosEntity} GrupoUsuarios - Recebe
+        * @returns {Promise<gruposusuariosEntity>} - retorna Grupo de usuarios Criado
+        * @throws {Error} - Lança um erro em caso de falha
     */
-    async create(usuario: UsuarioEntity): Promise<UsuarioEntity | Error> {
+    async create(GrupoUsuarios: gruposusuariosEntity): Promise<gruposusuariosEntity | Error> {
         try {
-            //necessário para associar o parametro do id a pessoa_id e o typeorm reconhecer               
-            usuario.pessoa_id = { pessoa_id: usuario.pessoa_id } as PessoaEntity
-            const execSQL = await this.repository.save(usuario)
+            const execSQL = await this.repository.save(GrupoUsuarios)
             return execSQL
         } catch (error) {
             if (error instanceof QueryFailedError) {
@@ -45,11 +41,11 @@ export class UsuarioRepository {
     }
 
     /**
-   * Método para Consultar Registros de uma Entidade    
+   * Método para Consultar Registros da entidade GrupoUsuarios
    * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
    * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
    */
-    async search(el: {} | any): Promise<UsuarioEntity[] | Error> {
+    async search(el: {} | any): Promise<gruposusuariosEntity[] | Error> {
         try {
             const isEmpty = (obj: object) => Object.keys(obj).length === 0
             const [[key, value]] = Object.entries(el)
@@ -75,16 +71,16 @@ export class UsuarioRepository {
     }
 
     /**
-     *Método para Adicionar Usuario.
-    * 
-    * @param {Object} query - Recebe   
-    * @param {UsuarioEntity} pessoa - Recebe
-    * @returns {Promise<UsuarioEntity>} - retorna a usuario editado
-    * @throws {Error} - Lança um erro em caso de falha
-    */
-    async edit(query: SingleUserProperty<UsuarioEntity>, usuario: UsuarioEntity): Promise<UsuarioEntity | Error> {
+    *Método para Adicionar Usuario.
+   * 
+   * @param {Object} query - Recebe   
+   * @param {UsuarioEntity} pessoa - Recebe
+   * @returns {Promise<UsuarioEntity>} - retorna grupoUsuario editado
+   * @throws {Error} - Lança um erro em caso de falha
+   */
+    async edit(query: SingleUserProperty<gruposusuariosEntity>, grupoUsuarios: gruposusuariosEntity): Promise<gruposusuariosEntity | Error> {
         try {
-            const queryReturn: UsuarioEntity[] = await this.repository.find(
+            const queryReturn: gruposusuariosEntity[] = await this.repository.find(
                 {
                     where: query
                 }
@@ -96,7 +92,7 @@ export class UsuarioRepository {
                     message: 'Invalid ID or not found'
                 }
             } else {
-                const mergeEdit = await this.repository.merge(queryReturn[0], usuario)
+                const mergeEdit = await this.repository.merge(queryReturn[0], grupoUsuarios)
                 const saveEdit = await this.repository.save(mergeEdit)
                 return saveEdit
             }
@@ -117,17 +113,17 @@ export class UsuarioRepository {
     }
 
     /**
-    * Método para Deletar Usuarios.
+    * Método para Deletar Grupo de Usuario.
     *       
     * @param { Partial<PessoaEntity>} [query] - Recebe um critério de busca
     * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
     */
-    async delete(query: Partial<UsuarioEntity>): Promise<DeleteResult | Error> {
+    async delete(query: Partial<gruposusuariosEntity>): Promise<DeleteResult | Error> {
         try {
             const response = await this.repository.delete(query)
             return response
         } catch (error) {
-            if (error instanceof QueryFailedError) {                
+            if (error instanceof QueryFailedError) {
                 throw {
                     name: error.name,
                     code: (error as any).code,
