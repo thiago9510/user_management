@@ -5,6 +5,7 @@ import { pessoaAddMiddlewar, pessoaDeleteMiddleware, pessoaEditMiddleware, pesso
 import { usuarioAddMiddleware, usuarioDeleteMiddleware, usuarioEditMiddleware, usuarioSearchMiddleware } from '../usuario/middlewares/usuario.middleware'
 import { usuarioAddControlle, usuarioDeleteController, usuarioEditController, usuarioSearchController } from '../usuario/controllers/usuario.controller'
 import { grupoUsuariosAddMiddleware, grupoUsuariosDeleteMiddleware, grupoUsuariosEditMiddleware, grupoUsuariosSearchMiddleware } from '../grupoUsuarios/middlewares/grupoUsuariosmiddleware'
+import { grupoUsuariosAddControlle, grupoUsuariosController, grupoUsuariosEditController, grupoUsuariosSearchController } from '../grupoUsuarios/controllers/grupoUsuarios.controller'
 
 
 export const router = express.Router()
@@ -30,4 +31,4 @@ router.delete('/usuarios/delete/:id',usuarioDeleteMiddleware, usuarioDeleteContr
 router.post('/grupoUsuarios/add',grupoUsuariosAddMiddleware, grupoUsuariosAddControlle) 
 router.get('/grupoUsuarios/search',grupoUsuariosSearchMiddleware, grupoUsuariosSearchController) 
 router.put('/grupoUsuarios/edit/:id',grupoUsuariosEditMiddleware, grupoUsuariosEditController)
-router.delete('/grupoUsuarios/delete/:id',grupoUsuariosDeleteMiddleware, grupoUsuariosDeleteController)
+router.delete('/grupoUsuarios/delete/:id',grupoUsuariosDeleteMiddleware, grupoUsuariosController)

@@ -43,7 +43,7 @@ export const grupoUsuariosEditController = async (req: Request, res: Response) =
 }
 
 //delte
-export const usuarioDeleteController = async (req: Request, res: Response) => {
+export const  grupoUsuariosController = async (req: Request, res: Response) => {
     const grupoId = parseInt(req.params.id)
 
     try {
