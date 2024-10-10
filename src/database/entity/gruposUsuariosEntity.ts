@@ -17,7 +17,7 @@ export class gruposusuariosEntity{
     updated_At?: Date  
 
     @CreateDateColumn({name: 'created_At'})
-    ceated_At?: Date
+    created_At?: Date
 
     @OneToMany(() => RelUsuariosGruposEntity, rel => rel.relGrupo)
     relGrupoUsuarios?: RelUsuariosGruposEntity[]

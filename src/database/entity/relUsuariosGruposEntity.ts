@@ -1,5 +1,5 @@
 import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { gruposusuariosEntity } from "./gruposUsuariosEntity";
+import { gruposusuariosEntity,  } from "./gruposUsuariosEntity";
 import { UsuarioEntity } from "./usuariosEntity";
 
 @Entity('rel__usuarios_grupos')
@@ -10,11 +10,11 @@ export class RelUsuariosGruposEntity{
 
     @ManyToOne(() => gruposusuariosEntity, grupo => grupo.relGrupoUsuarios,  { nullable: false })
     @JoinColumn({ name: 'grupo_id' })
-    relGrupo!: gruposusuariosEntity
+    relGrupo!: Partial<gruposusuariosEntity>
 
     @ManyToOne(() => UsuarioEntity, usuario => usuario.relUsuario, { nullable: false })
     @JoinColumn({ name: 'usuario_id' })  
-    relUsuario!: UsuarioEntity
+    relUsuario!: Partial<UsuarioEntity>
 
     @UpdateDateColumn({name: 'updated_At'})
     updated_At?: Date

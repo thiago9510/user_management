@@ -27,7 +27,7 @@ export class UsuarioEntity {
     updated_At?: Date
     
     @CreateDateColumn({name: 'created_At'})
-    ceated_At?: Date 
+    created_At?: Date 
 
     //estabelece o relacionamento entre as tabelas sem criar uma coluna nesta tabela
     @OneToMany(() => RelUsuariosGruposEntity, rel => rel.relUsuario)
