@@ -5,7 +5,7 @@ import { RelUserGrupInterface } from "../interfaces/relUsuarioGrupo.interface"
 //Create
 export const relUserGrupAddController = async (req: Request, res: Response) => {
     const  relUserGrup: RelUserGrupInterface = req.body
-    const service = new RelUserGrupService()
+    const service = new RelUserGrupService()    
     const response = await service.add(relUserGrup)
     if (response.success == false) {
         res.status(400).json(response)

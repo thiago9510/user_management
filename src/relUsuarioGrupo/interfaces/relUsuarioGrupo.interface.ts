@@ -3,8 +3,8 @@ import { UsuarioEntity } from "../../database/entity/usuariosEntity"
 
 export interface RelUserGrupInterface {
     rel_usuario_grupo_id?: number
-    relGrupo: Partial<gruposusuariosEntity> //teste partial<entidade>
-    relUsuario: Partial<UsuarioEntity>
+    grupo_id: Partial<gruposusuariosEntity> //teste partial<entidade>
+    usuario_id: Partial<UsuarioEntity>
     updated_At?: Date
     created_At?: Date
 }

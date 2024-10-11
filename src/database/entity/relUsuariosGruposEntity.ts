@@ -10,11 +10,11 @@ export class RelUsuariosGruposEntity{
 
     @ManyToOne(() => gruposusuariosEntity, grupo => grupo.relGrupoUsuarios,  { nullable: false })
     @JoinColumn({ name: 'grupo_id' })
-    relGrupo!: Partial<gruposusuariosEntity>
+    grupo_id!: Partial<gruposusuariosEntity> //relGrupo
 
     @ManyToOne(() => UsuarioEntity, usuario => usuario.relUsuario, { nullable: false })
     @JoinColumn({ name: 'usuario_id' })  
-    relUsuario!: Partial<UsuarioEntity>
+    usuario_id!: Partial<UsuarioEntity> //relUsuario
 
     @UpdateDateColumn({name: 'updated_At'})
     updated_At?: Date

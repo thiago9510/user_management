@@ -19,7 +19,7 @@ export class gruposusuariosEntity{
     @CreateDateColumn({name: 'created_At'})
     created_At?: Date
 
-    @OneToMany(() => RelUsuariosGruposEntity, rel => rel.relGrupo)
+    @OneToMany(() => RelUsuariosGruposEntity, rel => rel.grupo_id)
     relGrupoUsuarios?: RelUsuariosGruposEntity[]
 
     @OneToMany(() => RelGruposAcaoEntity, rel => rel.relGrupo)

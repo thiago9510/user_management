@@ -1,11 +1,6 @@
 import { BodyValidatorDefinition } from "../../dataValidation/interfaces/generalValidationInterface";
 
-export const RelUserGrupSchemas: { [key: string]: BodyValidatorDefinition } = {
-    rel_usuario_grupo_id: {
-        required: true,
-        type: 'number',
-        length: 255
-    },
+export const RelUserGrupSchemas: { [key: string]: BodyValidatorDefinition } = {   
     grupo_id: {
         required: true,
         type: 'number',
@@ -18,21 +13,15 @@ export const RelUserGrupSchemas: { [key: string]: BodyValidatorDefinition } = {
     }
 }
 
-export const RelUserGrupEditSchemas: { [key: string]: BodyValidatorDefinition } = {
-    usuario_login: {
+export const RelUserGrupEditSchemas: { [key: string]: BodyValidatorDefinition } = {   
+    grupo_id: {
         required: false,
         type: 'number',
         length: 255
     },
-    usuario_password: {
+    usuario_id: {
         required: false,
         type: 'number',
-        length: 255
-    },
-    usuario_status: {
-        required: false,
-        type: 'number',
-        length: 255       
+        length: 255         
     }
- 
 }

@@ -30,7 +30,7 @@ export class UsuarioEntity {
     created_At?: Date 
 
     //estabelece o relacionamento entre as tabelas sem criar uma coluna nesta tabela
-    @OneToMany(() => RelUsuariosGruposEntity, rel => rel.relUsuario)
+    @OneToMany(() => RelUsuariosGruposEntity, rel => rel.usuario_id) // rel.relUsuario
     relUsuario?: RelUsuariosGruposEntity[]
    
 }

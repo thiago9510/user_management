@@ -2,6 +2,8 @@ import { DeleteResult, QueryFailedError, Repository, Like } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
 import { RelUsuariosGruposEntity } from "../../database/entity/relUsuariosGruposEntity"
 import { SingleRelUserGrupProperty } from "../interfaces/relUsuarioGrupo.interface";
+import { UsuarioEntity } from "../../database/entity/usuariosEntity";
+import { gruposusuariosEntity } from "../../database/entity/gruposUsuariosEntity";
 
 /**
  *Classe responsável por Integrar com a entidade RelUsuariosGruposEntity
@@ -21,8 +23,8 @@ export class RelUserGrupRepository {
       * @throws {Error} - Lança um erro em caso de falha
     */
     async create(RelUserGrup: RelUsuariosGruposEntity): Promise<RelUsuariosGruposEntity | Error> {
-        try {
-            const execSQL = await this.repository.save(RelUserGrup)
+        try {           
+            const execSQL = await this.repository.save(RelUserGrup)              
             return execSQL
         } catch (error) {
             if (error instanceof QueryFailedError) {
