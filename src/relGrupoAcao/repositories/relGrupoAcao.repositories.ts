@@ -1,28 +1,28 @@
-import { DeleteResult, QueryFailedError, Repository, Like } from "typeorm";
+import { DeleteResult, Like, QueryFailedError, Repository } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
-import { gruposusuariosEntity } from "../../database/entity/gruposUsuariosEntity";
-import { SingleUserProperty } from "../interfaces/grupoUsuarios.interface";
+import { RelGruposAcaoEntity } from "../../database/entity/relGrupoAcoesEntity";
+import { SingleRelGruposAcaoProperty } from "../interfaces/relGrupoAcao.interface";
 
 /**
- *Classe responsável por Integrar com a entidade gruposusuariosEntity
+ *Classe responsável por interagir com a entidade relGrupoAcao
 */
-export class GrupoUsuariosRepository {
-    private repository: Repository<gruposusuariosEntity>
+export class RelGrupoAcaoRepository {
+    private repository: Repository<RelGruposAcaoEntity>
 
     constructor() {
-        this.repository = databaseConnection.getRepository(gruposusuariosEntity)
+        this.repository = databaseConnection.getRepository(RelGruposAcaoEntity)
     }
 
     /**
-        *Método para Adicionar Usuario.
+        *Método para Adicionar Entidade.
         *       
-        * @param {gruposusuariosEntity} GrupoUsuarios - Recebe
-        * @returns {Promise<gruposusuariosEntity>} - retorna Grupo de usuarios Criado
+        * @param {RelGruposAcaoEntity} RelGrupoAcao - Recebe
+        * @returns {Promise<RelGruposAcaoEntity>} - retorna 
         * @throws {Error} - Lança um erro em caso de falha
     */
-    async create(GrupoUsuarios: gruposusuariosEntity): Promise<gruposusuariosEntity | Error> {
+    async create(RelGrupoAcao: RelGruposAcaoEntity): Promise<RelGruposAcaoEntity | Error> {
         try {
-            const execSQL = await this.repository.save(GrupoUsuarios)
+            const execSQL = await this.repository.save(RelGrupoAcao)
             return execSQL
         } catch (error) {
             if (error instanceof QueryFailedError) {
@@ -41,19 +41,20 @@ export class GrupoUsuariosRepository {
     }
 
     /**
-   * Método para Consultar Registros da entidade GrupoUsuarios
-   * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
-   * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
-   */
-    async search(el: {} | any): Promise<gruposusuariosEntity[] | Error> {
+        * Método para Consultar Registros da entidade 
+        * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
+        * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
+    */
+    async search(el: {} | any): Promise<RelGruposAcaoEntity[] | Error> {
         try {
             const isEmpty = (obj: object) => Object.keys(obj).length === 0
             const [[key, value]] = Object.entries(el)
-            const response = isEmpty(el) ? this.repository.find() : this.repository.find({
-                where: {
-                    [key]: Like(`%${value}%`)
-                }
-            })
+            const response = isEmpty(el) ? this.repository.find() : this.repository.find(
+                {
+                    where: {
+                        [key]: Like(`%${value}%`)
+                    }
+                })
             return await response
         } catch (error) {
             if (error instanceof QueryFailedError) {
@@ -71,16 +72,16 @@ export class GrupoUsuariosRepository {
     }
 
     /**
-    *Método para Adicionar Usuario.
-   * 
-   * @param {Object} query - Recebe   
-   * @param {UsuarioEntity} grupoUsuarios - Recebe
-   * @returns {Promise<UsuarioEntity>} - retorna grupoUsuario editado
-   * @throws {Error} - Lança um erro em caso de falha
-   */
-    async edit(query: SingleUserProperty<gruposusuariosEntity>, grupoUsuarios: gruposusuariosEntity): Promise<gruposusuariosEntity | Error> {
+        *Método para Editar um registros.
+        * 
+        * @param {Object} query - Recebe   
+        * @param {RelGruposAcaoEntity} RelGruposAcao - Recebe
+        * @returns {Promise<RelGruposAcaoEntity>} - retorna editada
+        * @throws {Error} - Lança um erro em caso de falha
+    */
+    async edit(query: SingleRelGruposAcaoProperty<RelGruposAcaoEntity>, RelGruposAcao: RelGruposAcaoEntity): Promise<RelGruposAcaoEntity | Error> {
         try {
-            const queryReturn: gruposusuariosEntity[] = await this.repository.find(
+            const queryReturn: RelGruposAcaoEntity[] = await this.repository.find(
                 {
                     where: query
                 }
@@ -92,7 +93,7 @@ export class GrupoUsuariosRepository {
                     message: 'Invalid ID or not found'
                 }
             } else {
-                const mergeEdit = await this.repository.merge(queryReturn[0], grupoUsuarios)
+                const mergeEdit = await this.repository.merge(queryReturn[0], RelGruposAcao)
                 const saveEdit = await this.repository.save(mergeEdit)
                 return saveEdit
             }
@@ -113,12 +114,12 @@ export class GrupoUsuariosRepository {
     }
 
     /**
-    * Método para Deletar Grupo de Usuario.
-    *       
-    * @param { Partial<PessoaEntity>} [query] - Recebe um critério de busca
-    * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
+        * Método para Deletar registro.
+        *       
+        * @param { Partial<RelGruposAcaoEntity>} [query] - Recebe um critério de busca
+        * @returns {Promise<DeleteResult | Error>} - retorna um DeleteResult ou erro.
     */
-    async delete(query: Partial<gruposusuariosEntity>): Promise<DeleteResult | Error> {
+    async delete(query: Partial<RelGruposAcaoEntity>): Promise<DeleteResult | Error> {
         try {
             const response = await this.repository.delete(query)
             return response

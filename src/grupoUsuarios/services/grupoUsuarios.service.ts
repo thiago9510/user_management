@@ -1,5 +1,5 @@
-import { DeleteResult, QueryFailedError } from "typeorm"
-import { CryptoData } from "../../utility/bcrypt/cryptoData"
+import { DeleteResult } from "typeorm"
+
 import { GrupoUsuariosInterface, GrupoUsuariosResultInterface } from "../interfaces/grupoUsuarios.interface"
 import { GrupoUsuariosRepository } from "../repositories/grupoUsuarios.repositories"
 
@@ -70,7 +70,7 @@ export class GrupoUsuarioService {
     * Edita Grupo de Usuarios.
     * @param parm - Parametro da consulta
     * @returns retorno da consulta
-  */
+    */
 
     async editGrupo(grupoId: number, grupo: GrupoUsuariosInterface): Promise<GrupoUsuariosResultInterface> {
 

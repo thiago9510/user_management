@@ -1,30 +1,31 @@
-import { DeleteResult, QueryFailedError } from "typeorm"
-import { RelUserGrupInterface, RelUserGrupResultInterface } from "../interfaces/relUsuarioGrupo.interface"
-import { RelUserGrupRepository } from "../repositories/relUsuarioGrupo.repositories"
+import { DeleteResult } from "typeorm";
+import { RelGruposAcaoInterface, RelGruposAcaoResultInterface } from "../interfaces/relGrupoAcao.interface";
+import { RelGrupoAcaoRepository } from "../repositories/relGrupoAcao.repositories";
 
-export class RelUserGrupService {
-    private repo: RelUserGrupRepository
+
+export class RelGrupoAcaoService {
+    private repo: RelGrupoAcaoRepository
 
     constructor() {
-        this.repo = new RelUserGrupRepository()
+        this.repo = new RelGrupoAcaoRepository()
     }
 
     /**
-    * Adiciona um novo relUserGrup.
-    * @param relUserGrup - Dados do relUserGrup a ser adicionado
-    * @returns Resultado da operação
+        * Adiciona um novo relUserGrup.
+        * @param relUserGrup - Dados do relUserGrup a ser adicionado
+        * @returns Resultado da operação
     */
-    async add(relUserGrup: RelUserGrupInterface): Promise<RelUserGrupResultInterface> {
+    async add(relGrupoAcao: RelGruposAcaoInterface): Promise<RelGruposAcaoResultInterface> {
 
-        try {            
-            const create = await this.repo.create(relUserGrup)
+        try {
+            const create = await this.repo.create(relGrupoAcao)
             if (!create || create instanceof Error) {
                 return {
                     success: false,
                     message: 'Erro ao adicionar registro!',
                     error: create
                 }
-            }           
+            }
             return {
                 success: true,
                 message: 'Registro cadastrado com sucesso!',
@@ -47,11 +48,11 @@ export class RelUserGrupService {
     }
 
     /**
-    * Busca um relUserGrup.
-    * @param queryParameter - Parametro da consulta
-    * @returns retorno da consulta
-   */
-    async search(queryParameter: { [key: string]: string }): Promise<RelUserGrupResultInterface> {
+        * Busca uma entidade.
+        * @param queryParameter - Parametro da consulta
+        * @returns retorno da consulta
+    */
+    async search(queryParameter: { [key: string]: string }): Promise<RelGruposAcaoResultInterface> {
         const arrParameters = Object.keys(queryParameter)
         const parameter = arrParameters[0]
         const valorParameter = queryParameter[parameter]
@@ -73,13 +74,13 @@ export class RelUserGrupService {
     }
 
     /**
-    * Edita um relUserGrup.
-    * @param parm - Parametro da consulta
-    * @returns retorno da consulta
+        * Edita uma entidade.
+        * @param parm - Parametro da consulta
+        * @returns retorno da consulta
     */
-    async edit(relUserGrupId: number, relUserGrup: RelUserGrupInterface): Promise<RelUserGrupResultInterface> {
+    async edit(relGruposAcaoId: number, relGruposAcao: RelGruposAcaoInterface): Promise<RelGruposAcaoResultInterface> {
         try {
-            const edit = await this.repo.edit({ 'rel_usuario_grupo_id': relUserGrupId }, relUserGrup)
+            const edit = await this.repo.edit({ 'grupo_acoes_id': relGruposAcaoId }, relGruposAcao)
 
             if (!edit || edit instanceof Error) {
                 return {
@@ -87,7 +88,7 @@ export class RelUserGrupService {
                     message: 'Erro ao Editar registro!',
                     error: edit
                 }
-            }            
+            }
             return {
                 success: true,
                 message: 'Registro alterado com sucesso!',
@@ -110,13 +111,13 @@ export class RelUserGrupService {
     }
 
     /**
-    * Deleta relUserGrup.
-    * @param parm - Parametro da consulta
-    * @returns retorno da consulta
+        * Deleta uma entidade.
+        * @param parm - Parametro da consulta
+        * @returns retorno da consulta
     */
-    async delete(relUserGrupId: number) {
+    async delete(relGruposAcaoId: number) {
         try {
-            const repositoryMethods: DeleteResult | Error = await this.repo.delete({ rel_usuario_grupo_id: relUserGrupId })
+            const repositoryMethods: DeleteResult | Error = await this.repo.delete({ grupo_acoes_id: relGruposAcaoId })
 
             if (repositoryMethods instanceof Error) {
                 return {
@@ -141,7 +142,7 @@ export class RelUserGrupService {
             }
 
         } catch (error: unknown) {
-            if((error as any).name == 'QueryFailedError'){               
+            if ((error as any).name == 'QueryFailedError') {
                 if ((error as any).code === 'ER_ROW_IS_REFERENCED_2') {
                     return {
                         success: false,
@@ -157,8 +158,8 @@ export class RelUserGrupService {
                         message: 'Erro ao Deletar registro',
                         error: (error as any).code
                     }
-                }                
-            } else{
+                }
+            } else {
                 return {
                     success: false,
                     status: 400,

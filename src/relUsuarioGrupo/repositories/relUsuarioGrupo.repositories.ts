@@ -43,9 +43,9 @@ export class RelUserGrupRepository {
     }
 
     /**
-    * Método para Consultar Registros de RelUsuariosGruposEntity 
-    * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
-    * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
+        * Método para Consultar Registros de RelUsuariosGruposEntity 
+        * @param {U} [el={}] - Pode receber um Objeto de consulta ou vazio (Partial<T>)
+        * @returns {Promise<[]>} - retorna Objeto(s) da Consulta ou erro.
     */
     async search(el: {} | any): Promise<RelUsuariosGruposEntity[] | Error> {
         try {
@@ -74,12 +74,12 @@ export class RelUserGrupRepository {
     }
 
     /**
- *Método para Adicionar RelUserGrup.
-  * 
-  * @param {Object} query - Recebe   
-  * @param {RelUsuariosGruposEntity} RelUserGrup - Recebe
-  * @returns {Promise<RelUsuariosGruposEntity>} - retorna editada
-  * @throws {Error} - Lança um erro em caso de falha
+        *Método para Editar um registros.
+        * 
+        * @param {Object} query - Recebe   
+        * @param {RelUsuariosGruposEntity} RelUserGrup - Recebe
+        * @returns {Promise<RelUsuariosGruposEntity>} - retorna editada
+        * @throws {Error} - Lança um erro em caso de falha
     */
     async edit(query: SingleRelUserGrupProperty<RelUsuariosGruposEntity>, RelUserGrup: RelUsuariosGruposEntity): Promise<RelUsuariosGruposEntity | Error> {
         try {

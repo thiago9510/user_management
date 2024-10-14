@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express"
 import { BodyValidator } from "../../dataValidation/services/generalValidation"
-import { grupoUsuarioEditSchemas, grupoUsuarioSchemas } from "../schemas/grupoUsuarios.schemas"
+import { AcoesEditSchemas, AcoesSchemas } from "../schemas/acoes.schemas"
 import { ArrayParameterValidation } from "../../dataValidation/services/generalArrayValidation"
-import { GrupoUsuariosInterface } from "../interfaces/grupoUsuarios.interface"
+import { AcoesInterface } from "../interfaces/acoes.interface"
 
-//create
-export const grupoUsuariosAddMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const validator = new BodyValidator(grupoUsuarioSchemas)
+//create middleware
+export const acoesAddMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const validator = new BodyValidator(AcoesSchemas)
     const returnValidation = validator.validate(req.body)
     if (!returnValidation.success) {
         res.status(400).json({
@@ -19,10 +19,10 @@ export const grupoUsuariosAddMiddleware = async (req: Request, res: Response, ne
 }
 
 //read
-export const grupoUsuariosSearchMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const acoesSearchMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const parameters = req.query
-    const usuarioGrupoParametersValid = ['grupo_id', 'grupo_nome', 'grupo_descricao']
-    const validatorQParm = new ArrayParameterValidation(usuarioGrupoParametersValid)
+    const AcaoParametersValid = ['acao_id', 'acao_nome', 'acao_rota', 'modulo', 'chave', 'acao_descricao']
+    const validatorQParm = new ArrayParameterValidation(AcaoParametersValid)
     const returnValidation = validatorQParm.check(parameters)
     if (returnValidation.success == false) {
         res.status(400).json(returnValidation)
@@ -32,9 +32,9 @@ export const grupoUsuariosSearchMiddleware = (req: Request, res: Response, next:
 }
 
 //edit
-export const grupoUsuariosEditMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+export const acoesEditMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const grupoId: string = req.params.id
-    const grupo: GrupoUsuariosInterface = req.body
+    const grupo: AcoesInterface = req.body
 
     const isNumeric = (param: string) => {
         return /^[0-9]+$/.test(param)
@@ -47,7 +47,7 @@ export const grupoUsuariosEditMiddleware = async (req: Request, res: Response, n
         })
     }
 
-    const validator = new BodyValidator(grupoUsuarioEditSchemas)
+    const validator = new BodyValidator(AcoesEditSchemas)
     const returnValidation = validator.validate(grupo)   
 
     if (!returnValidation.success) {
@@ -60,13 +60,13 @@ export const grupoUsuariosEditMiddleware = async (req: Request, res: Response, n
 }
 
 //delete
-export const grupoUsuariosDeleteMiddleware =  async (req: Request, res: Response, next: NextFunction) => {
-    const grupoId: string = req.params.id
+export const AcoesDeleteMiddleware =  async (req: Request, res: Response, next: NextFunction) => {
+    const acaoId: string = req.params.id
     const isNumeric = (param: string) => {
         return /^[0-9]+$/.test(param)
     }
 
-    if (!grupoId || !isNumeric(grupoId)) {
+    if (!acaoId || !isNumeric(acaoId)) {
         return res.status(400).json({
             success: false,
             message: 'invalid id!'

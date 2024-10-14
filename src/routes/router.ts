@@ -8,6 +8,10 @@ import { grupoUsuariosAddMiddleware, grupoUsuariosDeleteMiddleware, grupoUsuario
 import { grupoUsuariosAddControlle, grupoUsuariosController, grupoUsuariosEditController, grupoUsuariosSearchController } from '../grupoUsuarios/controllers/grupoUsuarios.controller'
 import { relUserGrupAddMiddleware, relUserGrupDeleteMiddleware, relUserGrupEditMiddleware, relUserGrupSearchMiddleware } from '../relUsuarioGrupo/middlewares/relUsuarioGrupo.middleware'
 import { relUserGrupAddController, relUsergrupController, relUserGrupEditController, relUserGrupSearchController } from '../relUsuarioGrupo/controllers/relUsuarioGrupo.controller'
+import { acoesAddMiddleware, AcoesDeleteMiddleware, acoesEditMiddleware, acoesSearchMiddleware } from '../acoes/middlewares/acoes.middleware'
+import { acoesAddController, acoesDeleteController, acoesEditController, acoesSearchController } from '../acoes/controllers/acoes.controller'
+import { relGrupoAcaoAddMiddleware, relGrupoAcaoDeleteMiddleware, relGrupoAcaoEditMiddleware, relGrupoAcaoSearchMiddleware } from '../relGrupoAcao/middlewares/relGrupoAcao.middleware'
+import { relGrupoAcaoAddController, relGrupoAcaoController, relGrupoAcaoDeleteController, relGrupoAcaoSearchController } from '../relGrupoAcao/controllers/relGrupoAcao.controller'
 
 
 export const router = express.Router()
@@ -40,3 +44,15 @@ router.post('/relUserGrup/add', relUserGrupAddMiddleware, relUserGrupAddControll
 router.get('/relUserGrup/search', relUserGrupSearchMiddleware, relUserGrupSearchController) 
 router.put('/relUserGrup/edit/:id', relUserGrupEditMiddleware, relUserGrupEditController)
 router.delete('/relUserGrup/delete/:id', relUserGrupDeleteMiddleware, relUsergrupController)
+
+//CRUDE AÇÕES
+router.post('/acoes/add', acoesAddMiddleware, acoesAddController)
+router.get('/acoes/search', acoesSearchMiddleware, acoesSearchController)
+router.put('/acoes/edit/:id', acoesEditMiddleware, acoesEditController)
+router.delete('/acoes/delete/:id', AcoesDeleteMiddleware, acoesDeleteController)
+
+//CRUDE RELAÇÃO GRUPO/AÇÕES
+router.post('/relGrupoAcao/add', relGrupoAcaoAddMiddleware, relGrupoAcaoAddController)
+router.get('/relGrupoAcao/search', relGrupoAcaoSearchMiddleware, relGrupoAcaoSearchController)
+router.put('/relGrupoAcao/edit/:id', relGrupoAcaoEditMiddleware, relGrupoAcaoController)
+router.delete('/relGrupoAcao/delete/:id', relGrupoAcaoDeleteMiddleware, relGrupoAcaoDeleteController)

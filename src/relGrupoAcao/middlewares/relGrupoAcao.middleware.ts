@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express"
 import { BodyValidator } from "../../dataValidation/services/generalValidation"
-import { grupoUsuarioEditSchemas, grupoUsuarioSchemas } from "../schemas/grupoUsuarios.schemas"
 import { ArrayParameterValidation } from "../../dataValidation/services/generalArrayValidation"
-import { GrupoUsuariosInterface } from "../interfaces/grupoUsuarios.interface"
+import { RelGrupoAcaoEditSchemas, RelGrupoAcaoSchemas } from "../schemas/relGrupoAcao.schemas"
+import { RelGruposAcaoInterface } from "../interfaces/relGrupoAcao.interface"
 
 //create
-export const grupoUsuariosAddMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const validator = new BodyValidator(grupoUsuarioSchemas)
+export const relGrupoAcaoAddMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const validator = new BodyValidator(RelGrupoAcaoSchemas)
     const returnValidation = validator.validate(req.body)
     if (!returnValidation.success) {
         res.status(400).json({
@@ -19,36 +19,36 @@ export const grupoUsuariosAddMiddleware = async (req: Request, res: Response, ne
 }
 
 //read
-export const grupoUsuariosSearchMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const relGrupoAcaoSearchMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const parameters = req.query
-    const usuarioGrupoParametersValid = ['grupo_id', 'grupo_nome', 'grupo_descricao']
-    const validatorQParm = new ArrayParameterValidation(usuarioGrupoParametersValid)
+    const parametersValid = ['rel_grupo_acoes_id', 'grupo_id', 'acao_id']
+    const validatorQParm = new ArrayParameterValidation(parametersValid)
     const returnValidation = validatorQParm.check(parameters)
     if (returnValidation.success == false) {
         res.status(400).json(returnValidation)
     } else {
         next()
-    }    
+    }
 }
 
 //edit
-export const grupoUsuariosEditMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const grupoId: string = req.params.id
-    const grupo: GrupoUsuariosInterface = req.body
+export const relGrupoAcaoEditMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const relGruposAcaoId: string = req.params.id
+    const relGruposAcao: RelGruposAcaoInterface = req.body
 
     const isNumeric = (param: string) => {
         return /^[0-9]+$/.test(param)
     }
 
-    if (!grupoId || !isNumeric(grupoId)) {
+    if (!relGruposAcaoId || !isNumeric(relGruposAcaoId)) {
         return res.status(400).json({
             sucess: false,
             message: 'parametro não aceito'
         })
     }
 
-    const validator = new BodyValidator(grupoUsuarioEditSchemas)
-    const returnValidation = validator.validate(grupo)   
+    const validator = new BodyValidator(RelGrupoAcaoEditSchemas)
+    const returnValidation = validator.validate(relGruposAcao)   
 
     if (!returnValidation.success) {
         return res.status(400).json({            
@@ -60,13 +60,13 @@ export const grupoUsuariosEditMiddleware = async (req: Request, res: Response, n
 }
 
 //delete
-export const grupoUsuariosDeleteMiddleware =  async (req: Request, res: Response, next: NextFunction) => {
-    const grupoId: string = req.params.id
+export const relGrupoAcaoDeleteMiddleware =  async (req: Request, res: Response, next: NextFunction) => {
+    const relGrupoAcaoId: string = req.params.id
     const isNumeric = (param: string) => {
         return /^[0-9]+$/.test(param)
     }
 
-    if (!grupoId || !isNumeric(grupoId)) {
+    if (!relGrupoAcaoId || !isNumeric(relGrupoAcaoId)) {
         return res.status(400).json({
             success: false,
             message: 'invalid id!'
