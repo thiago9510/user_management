@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express"
-import { RelGruposAcaoInterface } from "../interfaces/relGrupoAcao.interface"
+import { RelGruposAcaoCreateInterface, RelGruposAcaoInterface } from "../interfaces/relGrupoAcao.interface"
 import { RelGrupoAcaoService } from "../services/relGrupoAcao.service"
 
 //Create
 export const relGrupoAcaoAddController = async (req: Request, res: Response) => {
-    const  relGrupoAcao: RelGruposAcaoInterface = req.body
+    const  relGrupoAcao: RelGruposAcaoCreateInterface = req.body
     const service = new RelGrupoAcaoService()    
     const response = await service.add(relGrupoAcao)
     if (response.success == false) {

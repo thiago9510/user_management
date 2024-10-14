@@ -2,6 +2,8 @@ import { DeleteResult, Like, QueryFailedError, Repository } from "typeorm";
 import { databaseConnection } from "../../database/connection/connect";
 import { RelGruposAcaoEntity } from "../../database/entity/relGrupoAcoesEntity";
 import { SingleRelGruposAcaoProperty } from "../interfaces/relGrupoAcao.interface";
+import { gruposusuariosEntity } from "../../database/entity/gruposUsuariosEntity";
+import { AcoesEntity } from "../../database/entity/acoesEntity";
 
 /**
  *Classe responsável por interagir com a entidade relGrupoAcao
@@ -20,9 +22,12 @@ export class RelGrupoAcaoRepository {
         * @returns {Promise<RelGruposAcaoEntity>} - retorna 
         * @throws {Error} - Lança um erro em caso de falha
     */
-    async create(RelGrupoAcao: RelGruposAcaoEntity): Promise<RelGruposAcaoEntity | Error> {
+    async create(RelGrupoAcao:{ grupo_id: number, acao_id: number }): Promise<RelGruposAcaoEntity | Error> {
         try {
-            const execSQL = await this.repository.save(RelGrupoAcao)
+            const execSQL = await this.repository.save({
+                relGrupo: RelGrupoAcao.grupo_id,
+                relAcao: RelGrupoAcao.acao_id
+            })
             return execSQL
         } catch (error) {
             if (error instanceof QueryFailedError) {
@@ -92,9 +97,10 @@ export class RelGrupoAcaoRepository {
                     name: 'Invalid Parameter',
                     message: 'Invalid ID or not found'
                 }
-            } else {
+            } else {                
+                
                 const mergeEdit = await this.repository.merge(queryReturn[0], RelGruposAcao)
-                const saveEdit = await this.repository.save(mergeEdit)
+                const saveEdit = await this.repository.save(mergeEdit)                
                 return saveEdit
             }
         } catch (error) {

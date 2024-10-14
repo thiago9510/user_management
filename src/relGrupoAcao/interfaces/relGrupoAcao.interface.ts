@@ -10,6 +10,11 @@ export interface RelGruposAcaoInterface {
     created_At?: Date
 }
 
+export interface RelGruposAcaoCreateInterface {    
+    grupo_id: number //teste partial<entidade>
+    acao_id: number
+}
+
 export interface QueryFailedRelGruposAcaoError {
     name: string,
     message: string,

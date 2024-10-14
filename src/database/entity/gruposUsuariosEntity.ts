@@ -22,7 +22,7 @@ export class gruposusuariosEntity{
     @OneToMany(() => RelUsuariosGruposEntity, rel => rel.grupo_id)
     relGrupoUsuarios?: RelUsuariosGruposEntity[]
 
-    @OneToMany(() => RelGruposAcaoEntity, rel => rel.relGrupo)
+    @OneToMany(() => RelGruposAcaoEntity, rel => rel.relAcao)
     relGrupoAcao?: RelGruposAcaoEntity[]
     
 }

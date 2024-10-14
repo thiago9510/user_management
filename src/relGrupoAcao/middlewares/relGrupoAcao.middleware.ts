@@ -21,7 +21,7 @@ export const relGrupoAcaoAddMiddleware = async (req: Request, res: Response, nex
 //read
 export const relGrupoAcaoSearchMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const parameters = req.query
-    const parametersValid = ['rel_grupo_acoes_id', 'grupo_id', 'acao_id']
+    const parametersValid = ['grupo_acoes_id', 'grupo_id', 'acao_id']
     const validatorQParm = new ArrayParameterValidation(parametersValid)
     const returnValidation = validatorQParm.check(parameters)
     if (returnValidation.success == false) {

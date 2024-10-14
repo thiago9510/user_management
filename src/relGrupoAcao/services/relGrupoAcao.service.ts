@@ -1,5 +1,5 @@
 import { DeleteResult } from "typeorm";
-import { RelGruposAcaoInterface, RelGruposAcaoResultInterface } from "../interfaces/relGrupoAcao.interface";
+import { RelGruposAcaoInterface, RelGruposAcaoResultInterface, RelGruposAcaoCreateInterface } from "../interfaces/relGrupoAcao.interface";
 import { RelGrupoAcaoRepository } from "../repositories/relGrupoAcao.repositories";
 
 
@@ -15,7 +15,7 @@ export class RelGrupoAcaoService {
         * @param relUserGrup - Dados do relUserGrup a ser adicionado
         * @returns Resultado da operação
     */
-    async add(relGrupoAcao: RelGruposAcaoInterface): Promise<RelGruposAcaoResultInterface> {
+    async add(relGrupoAcao: RelGruposAcaoCreateInterface): Promise<RelGruposAcaoResultInterface> {
 
         try {
             const create = await this.repo.create(relGrupoAcao)
