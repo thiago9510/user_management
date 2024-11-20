@@ -12,6 +12,9 @@ import { acoesAddMiddleware, AcoesDeleteMiddleware, acoesEditMiddleware, acoesSe
 import { acoesAddController, acoesDeleteController, acoesEditController, acoesSearchController } from '../acoes/controllers/acoes.controller'
 import { relGrupoAcaoAddMiddleware, relGrupoAcaoDeleteMiddleware, relGrupoAcaoEditMiddleware, relGrupoAcaoSearchMiddleware } from '../relGrupoAcao/middlewares/relGrupoAcao.middleware'
 import { relGrupoAcaoAddController, relGrupoAcaoController, relGrupoAcaoDeleteController, relGrupoAcaoSearchController } from '../relGrupoAcao/controllers/relGrupoAcao.controller'
+import { authenticateMiddleware } from '../authentication/middlewares/authenticate.Middleware'
+import { authenticateLoginMiddleware } from '../login/middlewares/login.middleware'
+import { authenticateLoginController } from '../login/controllers/login.controller'
 
 
 export const router = express.Router()
@@ -21,38 +24,42 @@ router.get('/', (req: Request, res: Response) => {
     res.status(200).json({ "server": "Online" })
 })
 
+//CRUD LOGIN
+router.post('/usuarios/login', authenticateLoginMiddleware, authenticateLoginController)
+
+
 //CRUD PESSOA
-router.post('/pessoas/add', pessoaAddMiddlewar, pessoaAddController) 
-router.get('/pessoas/search', pessoaSearchMiddleware, pessoaSearchController)
-router.put('/pessoas/edit/:id', pessoaEditMiddleware, pessoaEditController)
-router.delete('/pessoas/delete/:id', pessoaDeleteMiddleware, pessoaDeleteController)
+router.post('/pessoas/add', authenticateMiddleware, pessoaAddMiddlewar, pessoaAddController) 
+router.get('/pessoas/search', authenticateMiddleware, pessoaSearchMiddleware, pessoaSearchController)
+router.put('/pessoas/edit/:id', authenticateMiddleware, pessoaEditMiddleware, pessoaEditController)
+router.delete('/pessoas/delete/:id', authenticateMiddleware, pessoaDeleteMiddleware, pessoaDeleteController)
 
 // CRUD USUARIO
-router.post('/usuarios/add', usuarioAddMiddleware, usuarioAddControlle) 
-router.get('/usuarios/search', usuarioSearchMiddleware, usuarioSearchController) 
-router.put('/usuarios/edit/:id', usuarioEditMiddleware, usuarioEditController)
-router.delete('/usuarios/delete/:id', usuarioDeleteMiddleware, usuarioDeleteController)
+router.post('/usuarios/add', authenticateMiddleware, usuarioAddMiddleware, usuarioAddControlle) 
+router.get('/usuarios/search', authenticateMiddleware, usuarioSearchMiddleware, usuarioSearchController) 
+router.put('/usuarios/edit/:id', authenticateMiddleware, usuarioEditMiddleware, usuarioEditController)
+router.delete('/usuarios/delete/:id', authenticateMiddleware, usuarioDeleteMiddleware, usuarioDeleteController)
 
 //CRUD GRUPO DE USUARIO
-router.post('/grupoUsuarios/add', grupoUsuariosAddMiddleware, grupoUsuariosAddControlle) 
-router.get('/grupoUsuarios/search', grupoUsuariosSearchMiddleware, grupoUsuariosSearchController) 
-router.put('/grupoUsuarios/edit/:id', grupoUsuariosEditMiddleware, grupoUsuariosEditController)
-router.delete('/grupoUsuarios/delete/:id', grupoUsuariosDeleteMiddleware, grupoUsuariosController)
+router.post('/grupoUsuarios/add', authenticateMiddleware, grupoUsuariosAddMiddleware, grupoUsuariosAddControlle) 
+router.get('/grupoUsuarios/search', authenticateMiddleware, grupoUsuariosSearchMiddleware, grupoUsuariosSearchController) 
+router.put('/grupoUsuarios/edit/:id', authenticateMiddleware, grupoUsuariosEditMiddleware, grupoUsuariosEditController)
+router.delete('/grupoUsuarios/delete/:id', authenticateMiddleware, grupoUsuariosDeleteMiddleware, grupoUsuariosController)
 
 //CRUD RELAÇÃO DE USUARIO/GRUPOS
-router.post('/relUserGrup/add', relUserGrupAddMiddleware, relUserGrupAddController) 
-router.get('/relUserGrup/search', relUserGrupSearchMiddleware, relUserGrupSearchController) 
-router.put('/relUserGrup/edit/:id', relUserGrupEditMiddleware, relUserGrupEditController)
-router.delete('/relUserGrup/delete/:id', relUserGrupDeleteMiddleware, relUsergrupController)
+router.post('/relUserGrup/add', authenticateMiddleware, relUserGrupAddMiddleware, relUserGrupAddController) 
+router.get('/relUserGrup/search', authenticateMiddleware, relUserGrupSearchMiddleware, relUserGrupSearchController) 
+router.put('/relUserGrup/edit/:id', authenticateMiddleware, relUserGrupEditMiddleware, relUserGrupEditController)
+router.delete('/relUserGrup/delete/:id', authenticateMiddleware, relUserGrupDeleteMiddleware, relUsergrupController)
 
 //CRUDE AÇÕES
-router.post('/acoes/add', acoesAddMiddleware, acoesAddController)
-router.get('/acoes/search', acoesSearchMiddleware, acoesSearchController)
-router.put('/acoes/edit/:id', acoesEditMiddleware, acoesEditController)
-router.delete('/acoes/delete/:id', AcoesDeleteMiddleware, acoesDeleteController)
+router.post('/acoes/add', authenticateMiddleware, acoesAddMiddleware, acoesAddController)
+router.get('/acoes/search', authenticateMiddleware, acoesSearchMiddleware, acoesSearchController)
+router.put('/acoes/edit/:id', authenticateMiddleware, acoesEditMiddleware, acoesEditController)
+router.delete('/acoes/delete/:id', authenticateMiddleware, AcoesDeleteMiddleware, acoesDeleteController)
 
 //CRUDE RELAÇÃO GRUPO/AÇÕES
-router.post('/relGrupoAcao/add', relGrupoAcaoAddMiddleware, relGrupoAcaoAddController)
-router.get('/relGrupoAcao/search', relGrupoAcaoSearchMiddleware, relGrupoAcaoSearchController)
-router.put('/relGrupoAcao/edit/:id', relGrupoAcaoEditMiddleware, relGrupoAcaoController)
-router.delete('/relGrupoAcao/delete/:id', relGrupoAcaoDeleteMiddleware, relGrupoAcaoDeleteController)
+router.post('/relGrupoAcao/add', authenticateMiddleware, relGrupoAcaoAddMiddleware, relGrupoAcaoAddController)
+router.get('/relGrupoAcao/search', authenticateMiddleware, relGrupoAcaoSearchMiddleware, relGrupoAcaoSearchController)
+router.put('/relGrupoAcao/edit/:id', authenticateMiddleware, relGrupoAcaoEditMiddleware, relGrupoAcaoController)
+router.delete('/relGrupoAcao/delete/:id', authenticateMiddleware, relGrupoAcaoDeleteMiddleware, relGrupoAcaoDeleteController)

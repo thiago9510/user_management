@@ -68,6 +68,11 @@ export class UsuarioService {
                 error: searchUsuario
             }
         } else {
+            //delete a senha para todos os registros do array
+            searchUsuario.forEach((usuario) => {
+                delete usuario.usuario_password
+            })
+
             return {
                 success: true,
                 message: 'Consulta realizada com sucesso!',
