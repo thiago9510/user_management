@@ -13,6 +13,8 @@ import { acoesAddController, acoesDeleteController, acoesEditController, acoesSe
 import { relGrupoAcaoAddMiddleware, relGrupoAcaoDeleteMiddleware, relGrupoAcaoEditMiddleware, relGrupoAcaoSearchMiddleware } from '../relGrupoAcao/middlewares/relGrupoAcao.middleware'
 import { relGrupoAcaoAddController, relGrupoAcaoController, relGrupoAcaoDeleteController, relGrupoAcaoSearchController } from '../relGrupoAcao/controllers/relGrupoAcao.controller'
 import { authenticateMiddleware } from '../authentication/middlewares/authenticate.Middleware'
+import { authenticateLoginMiddleware } from '../login/middlewares/login.middleware'
+import { authenticateLoginController } from '../login/controllers/login.controller'
 
 
 export const router = express.Router()
@@ -21,6 +23,10 @@ export const router = express.Router()
 router.get('/', (req: Request, res: Response) => {
     res.status(200).json({ "server": "Online" })
 })
+
+//CRUD LOGIN
+router.post('/usuarios/login', authenticateLoginMiddleware, authenticateLoginController)
+
 
 //CRUD PESSOA
 router.post('/pessoas/add', authenticateMiddleware, pessoaAddMiddlewar, pessoaAddController) 

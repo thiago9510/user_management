@@ -55,7 +55,7 @@ export class BodyValidator {
                     success: false,
                     message: `Tipo de valor inválido para o parâmetro ${el}: ${typeof value}. Tipo esperado: ${definition.type}`
                 }
-            } else if (definition.length < value.length) {
+            } else if (definition.length < value.length || 1 > value.length) {
                 return {
                     success: false,
                     message: `Tamanho inválido para o parâmetro ${el}. Tamanho máximo: ${definition.length}`
