@@ -18,7 +18,7 @@ export class LoginRepository {
      *Método buscar Usuario.
       *       
       * @param {UsuarioEntity} login - Recebe
-      * @returns {Promise<UsuarioEntity>} - retorna a pessoa criada
+      * @returns {Promise<UsuarioEntity>} - retorna um usuario
       * @throws {Error} - Lança um erro em caso de falha
     */
 
