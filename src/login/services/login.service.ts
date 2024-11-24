@@ -5,6 +5,7 @@ import { LoginRepository } from "../repositories/login.repositories";
 import { CryptoData } from "../../utility/bcrypt/cryptoData";
 import { sign } from "jsonwebtoken";
 import dotenv from 'dotenv'
+import { UserActions } from "../repositories/userActions.repositories";
 
 dotenv.config()
 
@@ -32,7 +33,7 @@ export class LoginService {
                     message: 'Erro Interno do Servidor: Variável SECRET_JWT_KEY Não definida'
                 }
             }    
-            if (login instanceof Error) {
+            else if (login instanceof Error) {
                 return {
                     success: false,
                     message: 'Erro ao Consultar login',
@@ -47,9 +48,15 @@ export class LoginService {
                             success: false,
                             message: 'Senha Inválida'
                         }
-                    } else {
-                        //Implementar os modulos que o usuário tem acesso para o controle do frond
-                        const token = sign({ sub: String(login.usuario_id), permissions: login.usuario_status }, secretJWT, {
+                    } else {                        
+                        //teste de consulta de ações
+                        const searchActions = new UserActions()
+                        const queryResult =  await searchActions.searchUserActions({usuario_id: login.usuario_id as number})
+
+                        //trata retorno e agrupa os modulos
+                        const modulosUsuario = [... new Set(queryResult.map(item => item.acoes_chave))]                        
+
+                        const token = sign({ sub: String(login.usuario_id), modulos: modulosUsuario }, secretJWT, {
                             expiresIn: '3h'
                         })
                         delete login.usuario_password //removendo a senha do retorno
