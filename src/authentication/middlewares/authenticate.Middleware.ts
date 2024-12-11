@@ -33,8 +33,7 @@ export const authenticateMiddleware = (req: Request, res: Response, next: NextFu
         //decodificar token se tudo certo
         const token = hashToken[1]
         const decoded = jwt.verify(token, secretJWT) as JwtPayload
-        req.user = {usuario_id: decoded} as any //alterar quando defifir o formato do token
-        
+        req.user = decoded as any //alterar quando definir o formato do token        
         
         next()       
     } catch (error) {
